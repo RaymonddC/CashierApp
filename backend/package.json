@@ -1,11 +1,12 @@
 {
   "dependencies": {
-    "express": "^4.18.2"
+    "express": "^4.18.2",
+    "sequelize": "^6.32.0",
+    "sequelize-cli": "^6.6.0"
   },
   "name": "backend",
   "version": "1.0.0",
   "main": "index.js",
-  "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },

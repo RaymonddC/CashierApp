@@ -1,19 +1,17 @@
-const express = require('express');
-const cors = require('cors');
+const express = require("express");
+const cors = require("cors");
 
 const PORT = 5000;
 const app = express();
 
-app.use(express.static('Public'));
+app.use(express.static("public"));
 
 app.use(express.json());
 app.use(cors());
 
-// const { usersRoute, postsRoute, authRoute } = require('./routers');
+const { productRouter } = require("./routers");
 
-// app.use('/users', usersRoute);
-// app.use('/posts', postsRoute);
-// app.use('/auth', authRoute);
+app.use("/products", productRouter);
 
 app.listen(PORT, () => {
   console.log(`server started on port ${PORT}`);

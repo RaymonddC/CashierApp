@@ -7,6 +7,7 @@ import AddIcon from '@mui/icons-material/Add';
 // paginate
 import { Pagination } from '@mui/material';
 import Stack from '@mui/material/Stack';
+import { FilterProduct } from '../../Components/FilterProduct/FilterProduct';
 
 export default function Admin() {
   const dispatch = useDispatch();
@@ -26,6 +27,7 @@ export default function Admin() {
     <div className="flex bg-[#f0f0f0]">
       <Sidebar />
       <div className="w-full p-9">
+        <FilterProduct />
         <div className="flex justify-end">
           <button className="p-2 bg-[#FF2351] text-white font-bold rounded-lg flex items-center mb-5 gap-1 text-[14px]">
             <AddIcon />

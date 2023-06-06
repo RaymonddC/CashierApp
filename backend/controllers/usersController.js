@@ -42,14 +42,16 @@ const getUserById = async (req, res) => {
   try {
     const user = await User.findByPk(req.user.id);
 
+    if (!user) throw { message: 'user not found!', code: 400 };
+
     return res.status(200).send({
       success: true,
       message: 'get user success',
       data: avoidPassword(user),
     });
   } catch (error) {
-    res.status(500).send({
-      success: true,
+    res.status(error.code || 500).send({
+      success: false,
       message: error.message,
       data: null,
     });
@@ -104,6 +106,7 @@ const userLogin = async (req, res) => {
     let result = await getUser(usernameOrEmail, usernameOrEmail);
 
     if (!result) throw { message: 'account not found', code: 400 };
+    console.log(usernameOrEmail, password, result);
 
     const isUserExists = await bcrypt.compare(password, result.password);
 
@@ -132,6 +135,7 @@ const userLogin = async (req, res) => {
       });
     }
   } catch (error) {
+    console.log(error.message);
     res.status(error.code || 500).send({
       success: false,
       message: error.message,
@@ -493,7 +497,7 @@ module.exports = {
   //   updateUser,
   //   deleteUser,
   //   activateUser,
-  //   getUserById,
+  getUserById,
   //   forgetPassword,
   //   changePassword,
 };

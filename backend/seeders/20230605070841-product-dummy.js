@@ -15,6 +15,7 @@ module.exports = {
     await queryInterface.bulkInsert("products", [
       {
         product_name: "Burger",
+        price: 20000,
         stock: 100,
         product_image: "IMG1685973920711.png",
         category_id: 1,
@@ -23,6 +24,7 @@ module.exports = {
       },
       {
         product_name: "Pizza Mozarella",
+        price: 50000,
         stock: 100,
         product_image: "IMG1685974088353.png",
         category_id: 2,
@@ -31,6 +33,7 @@ module.exports = {
       },
       {
         product_name: "French Fries",
+        price: 10000,
         stock: 100,
         product_image: "IMG1685948609056.png",
         category_id: 3,
@@ -39,6 +42,7 @@ module.exports = {
       },
       {
         product_name: "Coca Cola",
+        price: 10000,
         stock: 100,
         product_image: "IMG1685974633294.png",
         category_id: 4,
@@ -47,6 +51,7 @@ module.exports = {
       },
       {
         product_name: "Coffee Latte",
+        price: 20000,
         stock: 100,
         product_image: "IMG1685974664327.png",
         category_id: 5,
@@ -55,6 +60,7 @@ module.exports = {
       },
       {
         product_name: "Ice Cream",
+        price: 20000,
         stock: 100,
         product_image: "IMG1685974813616.png",
         category_id: 6,

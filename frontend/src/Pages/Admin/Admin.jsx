@@ -1,12 +1,12 @@
-import { useEffect, useState } from "react";
-import { Sidebar } from "../../Components/Sidebar/Sidebar";
-import { getDataProduct } from "../../features/product/productSlice";
-import { useDispatch, useSelector } from "react-redux";
-import Card from "../../Components/Card/Card";
-import AddIcon from "@mui/icons-material/Add";
+import { useEffect, useState } from 'react';
+import { Sidebar } from '../../Components/Sidebar/Sidebar';
+import { getDataProduct } from '../../Features/product/productSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import Card from '../../Components/Card/Card';
+import AddIcon from '@mui/icons-material/Add';
 // paginate
-import { Pagination } from "@mui/material";
-import Stack from "@mui/material/Stack";
+import { Pagination } from '@mui/material';
+import Stack from '@mui/material/Stack';
 
 export default function Admin() {
   const dispatch = useDispatch();
@@ -33,6 +33,12 @@ export default function Admin() {
           </button>
         </div>
         <Card data={dataProduct} />
+        {/* <Stack spacing={2}>
+          <Pagination count={10} />
+          <Pagination count={10} color="primary" />
+          <Pagination count={10} color="secondary" />
+          <Pagination count={10} disabled />
+        </Stack> */}
       </div>
     </div>
   );

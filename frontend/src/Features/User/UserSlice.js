@@ -49,7 +49,7 @@ export const onLoginAsync = (values) => async (dispatch) => {
     const { email, password } = values;
     if (!email || !password) return toast.error(`Fill All Data!`);
 
-    dispatch(toggleBtn());
+    // dispatch(toggleBtn());
 
     let result = await dispatch(checkCredentialAsync(email, password));
 
@@ -69,7 +69,7 @@ export const onLoginAsync = (values) => async (dispatch) => {
     alert(error.message);
     toast.error(error.message);
   } finally {
-    dispatch(toggleBtn());
+    // dispatch(toggleBtn());
   }
 };
 

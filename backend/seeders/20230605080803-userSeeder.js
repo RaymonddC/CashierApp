@@ -1,4 +1,4 @@
-'use strict';
+"use strict";
 
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
@@ -12,20 +12,20 @@ module.exports = {
      *   isBetaMember: false
      * }], {});
      */
-    await queryInterface.bulkInsert('users', [
+    await queryInterface.bulkInsert("users", [
       {
-        username: 'AdminMekdi',
-        email: 'AdminMekdi@gmail.com',
+        username: "AdminMekdi",
+        email: "AdminMekdi@gmail.com",
         role_id: 1,
-        password: 'AdminMekdi',
+        password: "AdminMekdi",
         createdAt: new Date(),
         updatedAt: new Date(),
       },
       {
-        username: 'CashierMekdi',
-        email: 'CashierMekdi@gmail.com',
+        username: "CashierMekdi",
+        email: "CashierMekdi@gmail.com",
         role_id: 2,
-        password: 'CashierMekdi',
+        password: "CashierMekdi",
         createdAt: new Date(),
         updatedAt: new Date(),
       },

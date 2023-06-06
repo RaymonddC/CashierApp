@@ -1,4 +1,4 @@
-'use strict';
+"use strict";
 
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
@@ -12,14 +12,14 @@ module.exports = {
      *   isBetaMember: false
      * }], {});
      */
-    await queryInterface.bulkInsert('roles', [
+    await queryInterface.bulkInsert("roles", [
       {
-        type: 'Admin',
+        type: "Admin",
         createdAt: new Date(),
         updatedAt: new Date(),
       },
       {
-        type: 'Cashier',
+        type: "Cashier",
         createdAt: new Date(),
         updatedAt: new Date(),
       },
@@ -33,6 +33,6 @@ module.exports = {
      * Example:
      * await queryInterface.bulkDelete('People', null, {});
      */
-    await queryInterface.bulkDelete('roles', null, {});
+    await queryInterface.bulkDelete("roles", null, {});
   },
 };

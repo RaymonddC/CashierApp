@@ -16,7 +16,7 @@ module.exports = {
       {
         product_name: "Burger",
         stock: 100,
-        product_image: "IMG1685948529817.png",
+        product_image: "IMG1685973920711.png",
         category_id: 1,
         createdAt: new Date(),
         updatedAt: new Date(),
@@ -24,7 +24,7 @@ module.exports = {
       {
         product_name: "Pizza Mozarella",
         stock: 100,
-        product_image: "IMG1685948562121.png",
+        product_image: "IMG1685974088353.png",
         category_id: 2,
         createdAt: new Date(),
         updatedAt: new Date(),
@@ -40,7 +40,7 @@ module.exports = {
       {
         product_name: "Coca Cola",
         stock: 100,
-        product_image: "IMG1685948680758.png",
+        product_image: "IMG1685974633294.png",
         category_id: 4,
         createdAt: new Date(),
         updatedAt: new Date(),
@@ -48,7 +48,7 @@ module.exports = {
       {
         product_name: "Coffee Latte",
         stock: 100,
-        product_image: "IMG1685948745481.png",
+        product_image: "IMG1685974664327.png",
         category_id: 5,
         createdAt: new Date(),
         updatedAt: new Date(),
@@ -56,7 +56,7 @@ module.exports = {
       {
         product_name: "Ice Cream",
         stock: 100,
-        product_image: "IMG1685948821624.png",
+        product_image: "IMG1685974813616.png",
         category_id: 6,
         createdAt: new Date(),
         updatedAt: new Date(),

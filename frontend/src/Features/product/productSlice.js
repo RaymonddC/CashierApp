@@ -17,9 +17,9 @@ const productSlice = createSlice({
 
 export const getDataProduct = () => async (dispatch) => {
   try {
-    let response = await axios.get("http://localhost:5000/products");
+    let response = await axios.get("http://localhost:5000/products/");
     dispatch(setDataProduct(response.data.data));
-    // console.log(response);
+    console.log(response);
   } catch (error) {}
 };
 

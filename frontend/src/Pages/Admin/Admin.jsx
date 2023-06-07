@@ -9,6 +9,9 @@ import { Pagination } from "@mui/material";
 // Loader
 import CircularProgress from "@mui/material/CircularProgress";
 import { Navigate, useSearchParams } from "react-router-dom";
+import { Pagination } from "@mui/material";
+import Stack from "@mui/material/Stack";
+import { FilterProduct } from "../../Components/FilterProduct/FilterProduct";
 
 export default function Admin() {
   const [pageParams, setPageParams] = useSearchParams();
@@ -44,6 +47,7 @@ export default function Admin() {
           </div>
         ) : (
           <>
+            <FilterProduct />
             <div className="flex justify-end">
               <button className="p-2 bg-[#FF2351] text-white font-bold rounded-lg flex items-center mb-5 gap-1 text-[14px]">
                 <AddIcon />

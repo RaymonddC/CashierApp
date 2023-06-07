@@ -1,9 +1,10 @@
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
+import { convertIdr } from "../../helper/convertCurrency";
 
 export default function Card(props) {
   return (
-    <div className="grid grid-cols-5 gap-4 place-items-center">
+    <div className="h-full grid grid-cols-5 gap-4 place-items-start">
       {props.data.map((val, idx) => {
         return (
           <div
@@ -16,7 +17,7 @@ export default function Card(props) {
               alt="card"
             />
             <h1 className="text-[18px] font-bold">{val.product_name}</h1>
-            <h1 className="text-[16px]">Rp. 12.000,00</h1>
+            <h1 className="text-[16px]">{convertIdr(val.price)}</h1>
             <div className="w-full flex gap-5 justify-center">
               <button className="p-2 bg-red-500 rounded-lg w-[80px] text-white font-bold text-[14px] flex justify-center items-center gap-1">
                 <DeleteIcon sx={{ fontSize: 15 }} />

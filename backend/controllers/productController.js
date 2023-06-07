@@ -1,33 +1,38 @@
+const { Op, where } = require("sequelize");
 const db = require("../models");
 const { product } = db;
 const fs = require("fs");
 
 module.exports = {
   getProduct: async (req, res) => {
+    const limitPage = 2;
     try {
-      let { category_id } = req.query;
+      let { searchCategory, ordered, orderedBy, searchQuery, page } = req.query;
 
-      let result;
+      let whereQuery = {
+        product_name: { [Op.like]: `%${searchQuery || ""}%` },
+      };
+      if (searchCategory) whereQuery["category_id"] = searchCategory;
 
-      if (category_id) {
-        result = await product.findAll({
-          where: {
-            category_id: Number(category_id),
-          },
-        });
-      } else {
-        result = await product.findAll({
-          include: {
-            model: db.category,
-            attributes: ["category_name"],
-          },
-        });
-      }
+      const { count, rows } = await product.findAndCountAll({
+        include: {
+          model: db.category,
+          attributes: ["category_name"],
+        },
+        where: whereQuery,
+        order: [[orderedBy || "product_name", ordered || "ASC"]],
+        limit: limitPage,
+        offset: (Number(page) - 1) * limitPage,
+      });
+      // }
 
       return res.status(200).send({
         isError: false,
         message: "Get Product success!",
-        data: result,
+        data: rows,
+        pagination: {
+          pageCount: Math.ceil(count / limitPage),
+        },
       });
     } catch (error) {
       return res.status(500).send({

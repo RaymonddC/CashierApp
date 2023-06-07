@@ -8,24 +8,29 @@ import Card from "../../Components/Card/Card";
 import AddIcon from "@mui/icons-material/Add";
 
 // paginate
-import * as React from "react";
-import Pagination from "@mui/material/Pagination";
-
-// modal
-import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
-import Modal from "@mui/material/Modal";
-import { Form } from "../../Components/Form/Form";
+import { Pagination } from "@mui/material";
+// Loader
+import CircularProgress from "@mui/material/CircularProgress";
+import { Navigate, useSearchParams } from "react-router-dom";
+import { Pagination } from "@mui/material";
+import Stack from "@mui/material/Stack";
+import { FilterProduct } from "../../Components/FilterProduct/FilterProduct";
 
 export default function Admin() {
+  const [pageParams, setPageParams] = useSearchParams();
+
   const dispatch = useDispatch();
-  const { dataProduct } = useSelector((state) => state.product);
+  const { dataProduct, pageCount, isLoad } = useSelector(
+    (state) => state.product
+  );
+
+  console.log(pageParams.get("page"));
 
   // paginate
   const [page, setPage] = useState(1);
-  const handleChange = (event, value) => {
-    setPage(value);
+
+  const changeHandler = (event, value) => {
+    setPageParams(`page=${value}`);
   };
 
   // modal
@@ -46,48 +51,41 @@ export default function Admin() {
   const handleClose = () => setOpen(false);
 
   useEffect(() => {
-    dispatch(getDataProduct());
-  }, []);
+    if (pageParams.get("page") === null) {
+      setPageParams(`page=1`);
+    }
+    dispatch(getDataProduct(pageParams.get("page")));
+    setPage(Number(pageParams.get("page")));
+  }, [pageParams]);
 
   return (
     <div className="flex bg-[#f0f0f0]">
       <Sidebar />
-      <div className="w-full p-9">
-        <div className="flex justify-end">
-          {/* <button className="p-2 bg-[#FF2351] text-white font-bold rounded-lg flex items-center mb-2 gap-1 text-[14px]">
-            <AddIcon />
-            ADD PRODUCT
-          </button> */}
-          <Button
-            className="p-2 !bg-[#FF2351] !text-white !font-bold !rounded-lg flex items-center mb-2 gap-1 text-[14px]"
-            onClick={handleOpen}
-          >
-            <AddIcon />
-            ADD PRODUCT
-          </Button>
-          <Modal
-            open={open}
-            onClose={handleClose}
-            aria-labelledby="modal-modal-title"
-            aria-describedby="modal-modal-description"
-          >
-            <Box sx={style}>
-              {/* <Typography id="modal-modal-title" variant="h6" component="h2">
-                Text in a modal
-              </Typography>
-              <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-                Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-              </Typography> */}
-              <Form />
-            </Box>
-          </Modal>
-        </div>
+      <div className="w-full h-[100vh] p-9 flex flex-col justify-between">
+        {isLoad ? (
+          <div className="h-[100vh] flex justify-center items-center">
+            <CircularProgress />
+          </div>
+        ) : (
+          <>
+            <FilterProduct />
+            <div className="flex justify-end">
+              <button className="p-2 bg-[#FF2351] text-white font-bold rounded-lg flex items-center mb-5 gap-1 text-[14px]">
+                <AddIcon />
+                ADD PRODUCT
+              </button>
+            </div>
+            <Card data={dataProduct} />
 
-        <Card data={dataProduct} />
-
-        <div className="flex justify-center">
-          <Pagination count={10} page={page} onChange={handleChange} />
-        </div>
+            <div className="flex justify-center">
+              <Pagination
+                count={pageCount}
+                page={page}
+                onChange={changeHandler}
+              />
+            </div>
+          </>
+        )}
       </div>
     </div>
   );

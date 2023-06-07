@@ -23,16 +23,22 @@ export const Login = () => {
   return (
     <div className="flex h-[100vh]">
       <div className="image flex-1 bg-cover bg-[url('https://images.unsplash.com/photo-1578474846511-04ba529f0b88?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1974&q=80')]">
-        {/* <Card sx={{ minHeight: '280px', width: 320 }}>
+        <Card sx={{ minHeight: '100vh', width: '100%' }}>
           <CardCover>
-            <img src="https://images.unsplash.com/photo-1542773998-9325f0a098d7?auto=format&fit=crop&w=320" srcSet="https://images.unsplash.com/photo-1542773998-9325f0a098d7?auto=format&fit=crop&w=320&dpr=2 2x" loading="lazy" alt="" />
+            <img
+              src="https://images.unsplash.com/photo-1578474846511-04ba529f0b88?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1974&q=80"
+              srcSet="https://images.unsplash.com/photo-1578474846511-04ba529f0b88?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1974&q=80"
+              loading="lazy"
+              alt=""
+            />
           </CardCover>
           <CardCover
             sx={{
-              background: 'linear-gradient(to top, rgba(0,0,0,0.4), rgba(0,0,0,0) 200px), linear-gradient(to top, rgba(0,0,0,0.8), rgba(0,0,0,0) 300px)',
+              background: 'linear-gradient(to top, rgba(0,0,0,0.4), rgba(0,0,0,0) 200px), linear-gradient(to top, rgba(0,0,0,0.8), rgba(0,0,0,0) 150vh)',
             }}
           />
           <CardContent sx={{ justifyContent: 'flex-end' }}>
+            <p className="text-white">Restaurant anjing</p>
             <Typography level="h2" fontSize="lg" textColor="#fff" mb={1}>
               Yosemite National Park
             </Typography>
@@ -40,7 +46,7 @@ export const Login = () => {
               California, USA
             </Typography>
           </CardContent>
-        </Card> */}
+        </Card>
       </div>
       <div className="formSide flex-1 flex flex-col h-[100vh] justify-center ">
         <div className="form px-[20%] ">

@@ -1,34 +1,34 @@
-const { Op, where } = require('sequelize');
-const db = require('../models');
+const { Op, where } = require("sequelize");
+const db = require("../models");
 const { product } = db;
-const fs = require('fs');
+const fs = require("fs");
 
 module.exports = {
   getProduct: async (req, res) => {
     const limitPage = 2;
     try {
-      let { searchCategory, ordered, orderedBy, searchQuery, page = 1 } = req.query;
+      let { searchCategory, ordered, orderedBy, searchQuery, page } = req.query;
 
       let whereQuery = {
-        product_name: { [Op.like]: `%${searchQuery || ''}%` },
+        product_name: { [Op.like]: `%${searchQuery || ""}%` },
       };
-      if (searchCategory) whereQuery['category_id'] = searchCategory;
+      if (searchCategory) whereQuery["category_id"] = searchCategory;
 
       const { count, rows } = await product.findAndCountAll({
         include: {
           model: db.category,
-          attributes: ['category_name'],
+          attributes: ["category_name"],
         },
         where: whereQuery,
-        order: [[orderedBy || 'product_name', ordered || 'ASC']],
+        order: [[orderedBy || "product_name", ordered || "ASC"]],
         limit: limitPage,
-        offset: (page - 1) * limitPage,
+        offset: (Number(page) - 1) * limitPage,
       });
       // }
 
       return res.status(200).send({
         isError: false,
-        message: 'Get Product success!',
+        message: "Get Product success!",
         data: rows,
         pagination: {
           pageCount: Math.ceil(count / limitPage),
@@ -37,7 +37,7 @@ module.exports = {
     } catch (error) {
       return res.status(500).send({
         isError: true,
-        message: 'Error : ' + error,
+        message: "Error : " + error,
         data: null,
       });
     }
@@ -55,13 +55,13 @@ module.exports = {
 
       return res.status(200).send({
         isError: false,
-        message: 'Get Product By Id success!',
+        message: "Get Product By Id success!",
         data: result,
       });
     } catch (error) {
       return res.status(500).send({
         isError: true,
-        message: 'Error : ' + error,
+        message: "Error : " + error,
         data: null,
       });
     }
@@ -82,13 +82,13 @@ module.exports = {
 
       return res.status(201).send({
         isError: false,
-        message: 'Product Created!',
+        message: "Product Created!",
         data: result,
       });
     } catch (error) {
       return res.status(500).send({
         isError: true,
-        message: 'Error : ' + error,
+        message: "Error : " + error,
         data: null,
       });
     }
@@ -103,7 +103,7 @@ module.exports = {
       const product_image = req.file;
 
       const getImage = await product.findOne({
-        attributes: ['product_image'],
+        attributes: ["product_image"],
         where: {
           id: Number(id),
         },
@@ -129,13 +129,13 @@ module.exports = {
 
       return res.status(200).send({
         isError: false,
-        message: 'Product updated!',
+        message: "Product updated!",
         data: null,
       });
     } catch (error) {
       return res.status(500).send({
         isError: true,
-        message: 'Error : ' + error,
+        message: "Error : " + error,
         data: null,
       });
     }
@@ -146,7 +146,7 @@ module.exports = {
       const { id } = req.params;
 
       const getImage = await product.findOne({
-        attributes: ['product_image'],
+        attributes: ["product_image"],
         where: {
           id: Number(id),
         },
@@ -162,13 +162,13 @@ module.exports = {
 
       return res.status(200).send({
         isError: false,
-        message: 'Product deleted!',
+        message: "Product deleted!",
         data: null,
       });
     } catch (error) {
       return res.status(500).send({
         isError: true,
-        message: 'Error : ' + error,
+        message: "Error : " + error,
         data: null,
       });
     }

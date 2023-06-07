@@ -1,11 +1,11 @@
-import logo from './logo.svg';
-import './App.css';
-import Toaster from 'react-hot-toast';
-import { Route, Routes } from 'react-router-dom';
+import logo from "./logo.svg";
+import "./App.css";
+import Toaster from "react-hot-toast";
+import { Route, Routes } from "react-router-dom";
 
-import { Login } from './Pages/Login/Login';
-import Home from './Pages/Home/Home';
-import Admin from './Pages/Admin/Admin';
+import { Login } from "./Pages/Login/Login";
+import Home from "./Pages/Home/Home";
+import Admin from "./Pages/Admin/Admin";
 
 function App() {
   return (

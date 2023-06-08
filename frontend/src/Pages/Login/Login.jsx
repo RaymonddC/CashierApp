@@ -5,7 +5,7 @@ import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
 import VisibilityOffOutlinedIcon from '@mui/icons-material/VisibilityOffOutlined';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
-import { Link } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { onLoginAsync } from '../../Features/User/UserSlice';
 import Card from '@mui/joy/Card';
@@ -17,9 +17,13 @@ import LocationOnRoundedIcon from '@mui/icons-material/LocationOnRounded';
 // const notify = () => toast('Here is your toast.');
 
 export const Login = () => {
+  const user = useSelector((state) => state?.user?.user);
   const [showPass, setShowPass] = useState(false);
   const dispatch = useDispatch();
 
+  console.log(user);
+
+  if (user) return <Navigate to={'/admin'} />;
   return (
     <div className="flex h-[100vh]">
       <div className="image flex-1 bg-cover bg-[url('https://images.unsplash.com/photo-1578474846511-04ba529f0b88?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1974&q=80')]">

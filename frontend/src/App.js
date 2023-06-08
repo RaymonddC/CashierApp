@@ -1,6 +1,6 @@
 import logo from './logo.svg';
 import './App.css';
-import Toaster from 'react-hot-toast';
+import { Toaster } from 'react-hot-toast';
 import { Route, Routes } from 'react-router-dom';
 
 import { Login } from './Pages/Login/Login';
@@ -11,7 +11,7 @@ import { Category } from './Pages/Admin/Category/Category';
 function App() {
   return (
     <div className="App">
-      {/* <Toaster /> */}
+      <Toaster />
       <div className="content">
         <Routes>
           <Route path="/" element={<Home />} />

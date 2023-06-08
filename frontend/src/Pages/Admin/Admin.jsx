@@ -1,27 +1,24 @@
-import { useEffect, useState } from "react";
-import { Sidebar } from "../../Components/Sidebar/Sidebar";
-import { getDataProduct } from "../../Features/product/productSlice";
-import { useDispatch, useSelector } from "react-redux";
-import Card from "../../Components/Card/Card";
-import AddIcon from "@mui/icons-material/Add";
+import { useEffect, useState } from 'react';
+import { Sidebar } from '../../Components/Sidebar/Sidebar';
+import { getDataProduct } from '../../Features/product/productSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import Card from '../../Components/Card/Card';
+import AddIcon from '@mui/icons-material/Add';
 // paginate
-import { Pagination } from "@mui/material";
+import { Pagination } from '@mui/material';
 // Loader
-import CircularProgress from "@mui/material/CircularProgress";
-import { Navigate, useSearchParams } from "react-router-dom";
-import { Pagination } from "@mui/material";
-import Stack from "@mui/material/Stack";
-import { FilterProduct } from "../../Components/FilterProduct/FilterProduct";
+import CircularProgress from '@mui/material/CircularProgress';
+import { Navigate, useSearchParams } from 'react-router-dom';
+import Stack from '@mui/material/Stack';
+import { FilterProduct } from '../../Components/FilterProduct/FilterProduct';
 
 export default function Admin() {
   const [pageParams, setPageParams] = useSearchParams();
 
   const dispatch = useDispatch();
-  const { dataProduct, pageCount, isLoad } = useSelector(
-    (state) => state.product
-  );
+  const { dataProduct, pageCount, isLoad } = useSelector((state) => state.product);
 
-  console.log(pageParams.get("page"));
+  console.log(pageParams.get('page'));
 
   const [page, setPage] = useState(1);
 
@@ -30,11 +27,11 @@ export default function Admin() {
   };
 
   useEffect(() => {
-    if (pageParams.get("page") === null) {
+    if (pageParams.get('page') === null) {
       setPageParams(`page=1`);
     }
-    dispatch(getDataProduct(pageParams.get("page")));
-    setPage(Number(pageParams.get("page")));
+    dispatch(getDataProduct(pageParams.get('page')));
+    setPage(Number(pageParams.get('page')));
   }, [pageParams]);
 
   return (
@@ -57,11 +54,7 @@ export default function Admin() {
             <Card data={dataProduct} />
 
             <div className="flex justify-center">
-              <Pagination
-                count={pageCount}
-                page={page}
-                onChange={changeHandler}
-              />
+              <Pagination count={pageCount} page={page} onChange={changeHandler} />
             </div>
           </>
         )}

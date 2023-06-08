@@ -1,10 +1,13 @@
-import React from "react";
-import LogoutIcon from "@mui/icons-material/Logout";
-import HomeIcon from "@mui/icons-material/Home";
-import DashboardIcon from "@mui/icons-material/Dashboard";
-import AdminPanelSettingsIcon from "@mui/icons-material/AdminPanelSettings";
+import React from 'react';
+import LogoutIcon from '@mui/icons-material/Logout';
+import HomeIcon from '@mui/icons-material/Home';
+import DashboardIcon from '@mui/icons-material/Dashboard';
+import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
+import { useDispatch } from 'react-redux';
+import { logoutAsync } from '../../Features/User/UserSlice';
 
 export const Sidebar = () => {
+  let dispatch = useDispatch();
   return (
     <div className="w-[130px] min-h-screen bg-white flex flex-col justify-between py-5">
       <div className=" min-h-[80px] flex justify-center items-center">
@@ -25,7 +28,12 @@ export const Sidebar = () => {
         </div>
       </div>
       <div className=" flex flex-col justify-center ">
-        <div className="flex flex-col justify-center min-h-[80px] items-center gap-1 relative">
+        <div
+          className="flex flex-col justify-center min-h-[80px] items-center gap-1 relative"
+          onClick={() => {
+            dispatch(logoutAsync());
+          }}
+        >
           <LogoutIcon />
           <div className="absolute bottom-0">Log out</div>
         </div>

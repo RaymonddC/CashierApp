@@ -12,7 +12,6 @@ const sequelize = require('sequelize');
 const generateToken = async (result) => {
   let payload = {
     id: result?.id,
-    role_id: result?.role_id,
   };
 
   return jwt.sign(payload, 'coding-is-easy', {

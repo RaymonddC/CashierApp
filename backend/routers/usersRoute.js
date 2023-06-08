@@ -7,7 +7,7 @@ const { usersController } = require('./../controllers');
 router.post('/register', usersController.userCreate);
 router.post('/login', usersController.userLogin);
 
-//keepLogin (byToken)
+// //keepLogin (byToken)
 router.get('/getUser', auth.verifyToken, usersController.getUserById);
 
 module.exports = router;

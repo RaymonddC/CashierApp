@@ -12,7 +12,6 @@ import { Pagination } from "@mui/material";
 // Loader
 import CircularProgress from "@mui/material/CircularProgress";
 import { Navigate, useSearchParams } from "react-router-dom";
-import { Pagination } from "@mui/material";
 import Stack from "@mui/material/Stack";
 import { FilterProduct } from "../../Components/FilterProduct/FilterProduct";
 

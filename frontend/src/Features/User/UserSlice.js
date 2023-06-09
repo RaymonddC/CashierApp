@@ -1,12 +1,14 @@
-import { createSlice } from '@reduxjs/toolkit';
-import axios from 'axios';
-import toast from 'react-hot-toast';
+import { createSlice } from "@reduxjs/toolkit";
+import axios from "axios";
+import toast from "react-hot-toast";
 
 // import { auth } from './../../firebase';
 // import { GoogleAuthProvider, signInWithPopup, onAuthStateChanged } from 'firebase/auth';
 // const provider = new GoogleAuthProvider();
 
-const token = localStorage.getItem('token') ? localStorage?.getItem('token') : '';
+const token = localStorage.getItem("token")
+  ? localStorage?.getItem("token")
+  : "";
 
 const initialState = {
   list: [],
@@ -14,7 +16,7 @@ const initialState = {
 };
 
 export const UserSlice = createSlice({
-  name: 'user',
+  name: "user",
   initialState,
   reducers: {
     onGetData: (initialState, action) => {
@@ -31,12 +33,15 @@ export const UserSlice = createSlice({
 
 export const checkCredentialAsync = (email, password) => async (dispatch) => {
   try {
-    console.log('awd');
-    console.log(process.env.REACT_APP_API_URL, 'test');
-    let response = await axios.post(`${process.env.REACT_APP_API_URL}/users/login`, {
-      usernameOrEmail: email,
-      password: password,
-    });
+    console.log("awd");
+    console.log(process.env.REACT_APP_API_URL, "test");
+    let response = await axios.post(
+      `${process.env.REACT_APP_API_URL}/users/login`,
+      {
+        usernameOrEmail: email,
+        password: password,
+      }
+    );
 
     return response.data;
   } catch (error) {
@@ -53,19 +58,19 @@ export const onLoginAsync = (values) => async (dispatch) => {
 
     let result = await dispatch(checkCredentialAsync(email, password));
 
-    if (result.length === 0) throw { message: 'Account Not Found' };
+    if (result.length === 0) throw { message: "Account Not Found" };
 
-    localStorage.removeItem('token');
+    localStorage.removeItem("token");
 
-    localStorage.setItem('token', result.token);
+    localStorage.setItem("token", result.token);
 
-    localStorage.setItem('userId', result.data.id);
+    localStorage.setItem("userId", result.data.id);
 
     dispatch(onSaveUser(result.data));
 
-    toast.success('Login Success!');
+    toast.success("Login Success!");
   } catch (error) {
-    console.log('error');
+    console.log("error");
     alert(error.message);
     toast.error(error.message);
   } finally {
@@ -125,26 +130,29 @@ export const onLoginAsync = (values) => async (dispatch) => {
 
 export const keepLoginAsync = () => async (dispatch) => {
   try {
-    let token = localStorage.getItem('token');
+    let token = localStorage.getItem("token");
     // if (token == null) throw { message: 'No User' };
-    let response = await axios.get(`${process.env.REACT_APP_API_URL}/users/getUser`, {
-      headers: {
-        Authorization: `bearer ${token}`,
-      },
-    });
+    let response = await axios.get(
+      `${process.env.REACT_APP_API_URL}/users/getUser`,
+      {
+        headers: {
+          Authorization: `bearer ${token}`,
+        },
+      }
+    );
     dispatch(onSaveUser(response.data.data));
   } catch (error) {}
 };
 
 export const logoutAsync = () => async (dispatch) => {
   try {
-    let id = localStorage.getItem('userId');
+    let id = localStorage.getItem("userId");
 
     if (id) {
-      localStorage.clear('userId');
+      localStorage.clear("userId");
       dispatch(onSaveUser(null));
     }
-    toast.success('Logout Success!');
+    toast.success("Logout Success!");
   } catch (error) {}
 };
 

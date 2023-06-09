@@ -7,6 +7,7 @@ const { multerUpload } = require("../middleware/multer");
 const { productController } = require("../controllers");
 
 Router.get("/", productController.getProduct);
+Router.get("/categories", productController.getAllCategory);
 Router.get("/:id", productController.getProudctById);
 Router.post(
   "/",

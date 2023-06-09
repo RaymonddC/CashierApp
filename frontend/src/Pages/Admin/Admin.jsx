@@ -1,37 +1,77 @@
-import { useEffect, useState } from 'react';
-import { Sidebar } from '../../Components/Sidebar/Sidebar';
-import { getDataProduct } from '../../Features/product/productSlice';
-import { useDispatch, useSelector } from 'react-redux';
-import Card from '../../Components/Card/Card';
-import AddIcon from '@mui/icons-material/Add';
+import { useEffect, useState } from "react";
+import { Sidebar } from "../../Components/Sidebar/Sidebar";
+import {
+  deleteDataProduct,
+  getDataProduct,
+  setDataProductById,
+} from "../../Features/product/productSlice";
+import { useDispatch, useSelector } from "react-redux";
+import Card from "../../Components/Card/Card";
+
+// icon
+import AddIcon from "@mui/icons-material/Add";
+
 // paginate
-import { Pagination } from '@mui/material';
+import { Pagination } from "@mui/material";
 // Loader
-import CircularProgress from '@mui/material/CircularProgress';
-import { Navigate, useSearchParams } from 'react-router-dom';
-import Stack from '@mui/material/Stack';
-import { FilterProduct } from '../../Components/FilterProduct/FilterProduct';
+import CircularProgress from "@mui/material/CircularProgress";
+import { Navigate, useSearchParams } from "react-router-dom";
+import Stack from "@mui/material/Stack";
+import { FilterProduct } from "../../Components/FilterProduct/FilterProduct";
+// Modal
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import Modal from "@mui/material/Modal";
+import { Form } from "../../Components/Form/Form";
 
 export default function Admin() {
   const [pageParams, setPageParams] = useSearchParams();
 
   const dispatch = useDispatch();
-  const { dataProduct, pageCount, isLoad } = useSelector((state) => state.product);
+  const { dataProduct, pageCount, isLoad } = useSelector(
+    (state) => state.product
+  );
 
-  console.log(pageParams.get('page'));
+  // console.log(pageParams.get("page"));
 
+  // paginate
   const [page, setPage] = useState(1);
 
   const changeHandler = (event, value) => {
     setPageParams(`page=${value}`);
   };
 
+  if (Number(pageParams.get("page")) > pageCount && pageCount !== 0) {
+    setPageParams(`page=1`);
+  }
+
+  // modal
+  const style = {
+    borderRadius: 2,
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    width: 400,
+    bgcolor: "background.paper",
+    border: "2px solid #000",
+    boxShadow: 24,
+    p: 4,
+  };
+
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => {
+    setOpen(false);
+    dispatch(setDataProductById({}));
+  };
+
   useEffect(() => {
-    if (pageParams.get('page') === null) {
+    if (pageParams.get("page") === null) {
       setPageParams(`page=1`);
     }
-    dispatch(getDataProduct(pageParams.get('page')));
-    setPage(Number(pageParams.get('page')));
+    dispatch(getDataProduct(pageParams.get("page")));
+    setPage(Number(pageParams.get("page")));
   }, [pageParams]);
 
   return (
@@ -46,15 +86,43 @@ export default function Admin() {
           <>
             <FilterProduct />
             <div className="flex justify-end">
-              <button className="p-2 bg-[#FF2351] text-white font-bold rounded-lg flex items-center mb-5 gap-1 text-[14px]">
+              {/* <button className="p-2 bg-[#FF2351] text-white font-bold rounded-lg flex items-center mb-5 gap-1 text-[14px]">
                 <AddIcon />
                 ADD PRODUCT
-              </button>
+              </button> */}
+              <Button
+                className="!bg-[#FF2351] !text-white !font-bold rounded-lg flex items-center gap-1 !text-[14px]"
+                onClick={handleOpen}
+              >
+                <AddIcon />
+                ADD PRODUCT
+              </Button>
+              <Modal
+                open={open}
+                onClose={handleClose}
+                aria-labelledby="modal-modal-title"
+                aria-describedby="modal-modal-description"
+              >
+                <Box sx={style}>
+                  <Form
+                    handleClose={handleClose}
+                    currentPage={pageParams.get("page")}
+                  />
+                </Box>
+              </Modal>
             </div>
-            <Card data={dataProduct} />
+            <Card
+              data={dataProduct}
+              currentPage={pageParams.get("page")}
+              handleOpen={handleOpen}
+            />
 
             <div className="flex justify-center">
-              <Pagination count={pageCount} page={page} onChange={changeHandler} />
+              <Pagination
+                count={pageCount}
+                page={page}
+                onChange={changeHandler}
+              />
             </div>
           </>
         )}

@@ -22,7 +22,7 @@ export default function Card(props) {
           >
             <img
               className="aspect-square h-[150px] object-cover"
-              src={`http://localhost:5000/product_image/${val.product_image}`}
+              src={`${process.env.REACT_APP_API_URL}/product_image/${val.product_image}`}
               alt="card"
             />
             <h1 className="text-[18px] font-bold">{val.product_name}</h1>

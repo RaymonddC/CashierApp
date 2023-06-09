@@ -105,7 +105,7 @@ export const Form = (props) => {
   useEffect(() => {
     if (dataProductById.product_image) {
       setImagePreview(
-        `http://localhost:5000/product_image/${dataProductById.product_image}`
+        `${process.env.REACT_APP_API_URL}/product_image/${dataProductById.product_image}`
       );
       formik.setValues({
         productName: dataProductById.product_name,

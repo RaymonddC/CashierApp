@@ -35,7 +35,7 @@ const productSlice = createSlice({
 export const getDataProduct = (page) => async (dispatch) => {
   try {
     let response = await axios.get(
-      `http://localhost:5000/products?page=${page}`
+      `${process.env.REACT_APP_API_URL}/products?page=${page}`
     );
     if (response.status === 200) {
       dispatch(setIsLoad(false));
@@ -50,7 +50,9 @@ export const getDataProduct = (page) => async (dispatch) => {
 
 export const getAllCategory = () => async (dispatch) => {
   try {
-    let response = await axios.get("http://localhost:5000/products/categories");
+    let response = await axios.get(
+      `${process.env.REACT_APP_API_URL}/products/categories`
+    );
     dispatch(setCategory(response.data.data));
     // console.log(response);
   } catch (error) {
@@ -60,7 +62,9 @@ export const getAllCategory = () => async (dispatch) => {
 
 export const getDataProductById = (id) => async (dispatch) => {
   try {
-    let response = await axios.get(`http://localhost:5000/products/${id}`);
+    let response = await axios.get(
+      `${process.env.REACT_APP_API_URL}/products/${id}`
+    );
     dispatch(setDataProductById(response.data.data));
     // console.log(response);
   } catch (error) {
@@ -72,7 +76,7 @@ export const postDataProduct = (input) => async (dispatch) => {
   console.log(input);
   try {
     let response = await axios.post(
-      "http://localhost:5000/products/",
+      `${process.env.REACT_APP_API_URL}/products/`,
       {
         product_name: input.productName,
         price: input.price,
@@ -104,7 +108,7 @@ export const updateDataProduct =
       let result;
       if (!product_image) {
         result = await axios.put(
-          `http://localhost:5000/products/${id}`,
+          `${process.env.REACT_APP_API_URL}/products/${id}`,
           {
             product_name,
             price,
@@ -119,7 +123,7 @@ export const updateDataProduct =
         );
       } else {
         result = await axios.put(
-          `http://localhost:5000/products/${id}`,
+          `${process.env.REACT_APP_API_URL}/products/${id}`,
           {
             product_name,
             price,
@@ -145,7 +149,9 @@ export const updateDataProduct =
 
 export const deleteDataProduct = (id, currentPage) => async (dispatch) => {
   try {
-    let result = await axios.delete(`http://localhost:5000/products/${id}`);
+    let result = await axios.delete(
+      `${process.env.REACT_APP_API_URL}/products/${id}`
+    );
     if (result.status === 200) {
       toast.success("Data Deleted!");
       dispatch(getDataProduct(currentPage));

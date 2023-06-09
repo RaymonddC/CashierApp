@@ -52,7 +52,7 @@ export const FilterProduct = (props) => {
           let bg = catId == value.id ? 'bg-[#FFCA40]' : '';
           return (
             <div className="box" onClick={() => setCatId(catId == value.id ? null : value.id)}>
-              <CardCategory key={idx} category={value} class={`scale-100 w-[10em] ${bg}`} />;
+              <CardCategory key={idx} category={value} class={`scale-100 w-[10em] ${bg}`} />
             </div>
           );
         })}

@@ -19,7 +19,7 @@ export const CardCategory = (props) => {
       //   // dispatch(getDataProduct(pageParams.get('page')));
       //   // setPage(Number(pageParams.get('page')));
       // }}
-      className={`border shadow-md rounded-[3em] h-[25em] max-h-[100%]  justify-center flex flex-col p-[2em] pt-[3em]  hover:bg-[#FFCA40] gap-[1em]  ${props.class} `}
+      className={`border shadow-md rounded-[3em] h-[25em] max-h-[95%]  justify-center flex flex-col p-[2em] pt-[3em]  hover:bg-[#FFCA40] gap-[1em]  ${props.class} `}
     >
       <div className="image px-[10%] max-h-[100%] flex justify-center">
         <img className="max-h-[100%]" src={`http://localhost:5000/category_image/${props.category?.category_image}`} alt="" />

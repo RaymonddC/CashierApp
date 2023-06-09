@@ -7,8 +7,16 @@ import { Login } from "./Pages/Login/Login";
 import Home from "./Pages/Home/Home";
 import Admin from "./Pages/Admin/Admin";
 import { Category } from "./Pages/Admin/Category/Category";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { keepLoginAsync } from "./Features/User/UserSlice";
 
 function App() {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(keepLoginAsync());
+  }, []);
+
   return (
     <div className="App">
       <Toaster />

@@ -1,6 +1,6 @@
 const { Op, where } = require('sequelize');
 const db = require('../models');
-const { product } = db;
+const { product, category } = db;
 const fs = require('fs');
 
 module.exports = {
@@ -44,6 +44,45 @@ module.exports = {
     }
   },
 
+  getAllCategory: async (req, res) => {
+    try {
+      let result = await category.findAll({
+        attributes: { exclude: ['category_image'] },
+      });
+      res.status(200).send({
+        isError: false,
+        message: 'Get Category success!',
+        data: result,
+      });
+    } catch (error) {
+      console.log(error);
+      res.status(error.code || 500).send({
+        isError: true,
+        message: 'Error : ' + error,
+        data: null,
+      });
+    }
+  },
+
+  getAllCategory: async (req, res) => {
+    try {
+      let result = await category.findAll({
+        attributes: { exclude: ['category_image'] },
+      });
+      res.status(200).send({
+        isError: false,
+        message: 'Get Category success!',
+        data: result,
+      });
+    } catch (error) {
+      return res.status(500).send({
+        isError: true,
+        message: 'Error : ' + error,
+        data: null,
+      });
+    }
+  },
+
   getProudctById: async (req, res) => {
     try {
       const { id } = req.params;
@@ -70,7 +109,7 @@ module.exports = {
 
   createProduct: async (req, res) => {
     try {
-      const { product_name, stock, category_id } = req.body;
+      const { product_name, stock, category_id, price } = req.body;
 
       const product_image = req.file;
 
@@ -79,6 +118,7 @@ module.exports = {
         stock: Number(stock),
         product_image: product_image.filename,
         category_id: Number(category_id),
+        price: Number(price),
       });
 
       return res.status(201).send({
@@ -99,7 +139,7 @@ module.exports = {
     try {
       const { id } = req.params;
 
-      const { product_name, stock, category_id } = req.body;
+      const { product_name, stock, price, category_id } = req.body;
 
       const product_image = req.file;
 
@@ -110,23 +150,42 @@ module.exports = {
         },
       });
 
-      console.log(getImage.product_image);
+      let result;
 
-      fs.unlinkSync(`public/product_image/${getImage.product_image}`);
+      if (product_image) {
+        console.log(getImage.product_image);
 
-      const result = await product.update(
-        {
-          product_name: product_name,
-          stock: Number(stock),
-          product_image: product_image.filename,
-          category_id: Number(category_id),
-        },
-        {
-          where: {
-            id: Number(id),
+        fs.unlinkSync(`public/product_image/${getImage.product_image}`);
+
+        result = await product.update(
+          {
+            product_name: product_name,
+            price: Number(price),
+            stock: Number(stock),
+            product_image: product_image.filename,
+            category_id: Number(category_id),
           },
-        }
-      );
+          {
+            where: {
+              id: Number(id),
+            },
+          }
+        );
+      } else {
+        result = await product.update(
+          {
+            product_name: product_name,
+            price: Number(price),
+            stock: Number(stock),
+            category_id: Number(category_id),
+          },
+          {
+            where: {
+              id: Number(id),
+            },
+          }
+        );
+      }
 
       return res.status(200).send({
         isError: false,

@@ -1,12 +1,13 @@
 import { createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
+import { toast } from 'react-hot-toast';
 
 const initialState = {
   dataProduct: [],
   pageCount: 0,
+  dataProductById: {},
   isLoad: true,
-
-  page: 1,
+  category: [],
 };
 
 const productSlice = createSlice({
@@ -23,18 +24,12 @@ const productSlice = createSlice({
     setIsLoad: (initialState, action) => {
       initialState.isLoad = action.payload;
     },
-    // setCategoryId: (initialState, action) => {
-    //   console.log(action.payload);
-    //   initialState.category_id = action.payload;
-    //   console.log(initialState.category_id);
-    // },
-    // setFilter: (initialState, action) => {
-    //   initialState.category_id = action.payload.category_id;
-    //   // initialState.ordered = action.payload.ordered;
-    //   // initialState.orderedBy = action.payload.orderedBy;
-    //   // initialState.search = action.payload.search;
-    //   // console.log(initialState, '<=========>', action.payload);
-    // },
+    setCategory: (initialState, action) => {
+      initialState.category = action.payload;
+    },
+    setDataProductById: (initialState, action) => {
+      initialState.dataProductById = action.payload;
+    },
   },
 });
 
@@ -48,7 +43,7 @@ export const getDataProduct = (page, filter) => async (dispatch) => {
       param['orderedBy'] = filter.orderedBy;
     }
 
-    let response = await axios.get(`http://localhost:5000/products`, {
+    let response = await axios.get(`${process.env.REACT_APP_API_URL}/products`, {
       params: param,
     });
     if (response.status === 200) {
@@ -56,36 +51,117 @@ export const getDataProduct = (page, filter) => async (dispatch) => {
     }
     dispatch(setDataProduct(response.data.data));
     dispatch(setPageCount(response.data.pagination.pageCount));
+    console.log(response.data);
+  } catch (error) {
+    console.error('error : ' + error);
+  }
+};
+
+export const getAllCategory = () => async (dispatch) => {
+  try {
+    let response = await axios.get(`${process.env.REACT_APP_API_URL}/products/categories`);
+    dispatch(setCategory(response.data.data));
+    // console.log(response);
+  } catch (error) {
+    console.error('error : ' + error);
+  }
+};
+
+export const getDataProductById = (id) => async (dispatch) => {
+  try {
+    let response = await axios.get(`${process.env.REACT_APP_API_URL}/products/${id}`);
+    dispatch(setDataProductById(response.data.data));
+    // console.log(response);
+  } catch (error) {
+    toast.error(error.message);
+  }
+};
+
+export const postDataProduct = (input) => async (dispatch) => {
+  console.log(input);
+  try {
+    let response = await axios.post(
+      `${process.env.REACT_APP_API_URL}/products/`,
+      {
+        product_name: input.productName,
+        price: input.price,
+        stock: input.stock,
+        product_image: input.productImage,
+        category_id: input.category,
+      },
+      {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      }
+    );
+    console.log(response.data.data);
+    if (response.status === 201) {
+      toast.success('Data Created!');
+      dispatch(getDataProduct(input.currentPage));
+    }
   } catch (error) {
     console.log(error);
   }
 };
 
-// export const changeFilter = (filter) => async (dispatch) => {
-//   try {
-//     const { category_id, ordered, orderedBy, search } = filter;
-//     const filterParams = {};
+export const updateDataProduct = (currentPage, id, product_name, price, stock, category_id, product_image) => async (dispatch) => {
+  // toast.success(currentPage);
+  try {
+    let result;
+    if (!product_image) {
+      result = await axios.put(
+        `${process.env.REACT_APP_API_URL}/products/${id}`,
+        {
+          product_name,
+          price,
+          stock,
+          category_id,
+        },
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        }
+      );
+    } else {
+      result = await axios.put(
+        `${process.env.REACT_APP_API_URL}/products/${id}`,
+        {
+          product_name,
+          price,
+          stock,
+          category_id,
+          product_image,
+        },
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        }
+      );
+    }
+    console.log(result);
+    toast.success('Data updated!');
+    dispatch(setDataProductById({}));
+    dispatch(getDataProduct(currentPage));
+  } catch (error) {
+    toast.error(error.message);
+  }
+};
 
-//     if (category_id) {
-//       filterParams.category_id = category_id;
-//     } else {
-//       filterParams.category_id = initialState.category_id;
-//     }
+export const deleteDataProduct = (id, currentPage) => async (dispatch) => {
+  try {
+    let result = await axios.delete(`${process.env.REACT_APP_API_URL}/products/${id}`);
+    if (result.status === 200) {
+      toast.success('Data Deleted!');
+      dispatch(getDataProduct(currentPage));
+    }
+  } catch (error) {
+    toast.error(error.message);
+  }
+};
 
-//     console.log(initialState.ordered, 'test disini', initialState.category_id);
-//     // const newFilter = {
-//     //   category_id: category_id ? category_id : initialState.category_id,
-//     //   ordered: ordered || initialState.ordered,
-//     //   orderedBy: orderedBy || initialState.orderedBy,
-//     //   search: search || initialState.search,
-//     // };
-//     const newFilter = filterParams;
-//     console.log(newFilter);
-//     console.log(category_id, 'babi');
-//     dispatch(setCategoryId(category_id));
-//   } catch (error) {}
-// };
-
-export const { setDataProduct, setPageCount, setIsLoad, setFilter, setCategoryId } = productSlice.actions;
+export const { setDataProduct, setDataProductById, setPageCount, setIsLoad, setCategory } = productSlice.actions;
 
 export default productSlice.reducer;

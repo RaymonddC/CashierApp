@@ -18,9 +18,15 @@ export default function Admin() {
   const dispatch = useDispatch();
   const { dataProduct, pageCount, isLoad } = useSelector((state) => state.product);
 
-  console.log(pageParams.get('page'));
+  // console.log(pageParams.get('page'));
 
   const [page, setPage] = useState(1);
+  const [filter, setFilter] = useState({
+    category_id: null,
+    ordered: 'ASC',
+    orderedBy: '',
+    search: '',
+  });
 
   const changeHandler = (event, value) => {
     setPageParams(`page=${value}`);
@@ -30,9 +36,10 @@ export default function Admin() {
     if (pageParams.get('page') === null) {
       setPageParams(`page=1`);
     }
-    dispatch(getDataProduct(pageParams.get('page')));
+    dispatch(getDataProduct(pageParams.get('page'), filter));
     setPage(Number(pageParams.get('page')));
-  }, [pageParams]);
+    console.log('filterUpdate ==================');
+  }, [pageParams, filter]);
 
   return (
     <div className="flex bg-[#f0f0f0]">
@@ -44,7 +51,7 @@ export default function Admin() {
           </div>
         ) : (
           <>
-            <FilterProduct />
+            <FilterProduct filter={filter} setFilter={setFilter} />
             <div className="flex justify-end">
               <button className="p-2 bg-[#FF2351] text-white font-bold rounded-lg flex items-center mb-5 gap-1 text-[14px]">
                 <AddIcon />

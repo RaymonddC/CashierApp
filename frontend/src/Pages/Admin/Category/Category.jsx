@@ -1,8 +1,16 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Sidebar } from '../../../Components/Sidebar/Sidebar';
 import { CardCategory } from '../../../Components/FilterProduct/CardCategory';
+import { useDispatch, useSelector } from 'react-redux';
+import { getCategoriesAsync } from '../../../Features/Category/CategorySlice';
 
 export const Category = () => {
+  const category = useSelector((state) => state.category.list);
+  let dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getCategoriesAsync());
+  }, []);
   return (
     <div className="flex ">
       <Sidebar />
@@ -14,15 +22,10 @@ export const Category = () => {
             (+icon) Add Category
           </button>
         </div>
-        <div className="list grid grid-cols-4 gap-[40px]">
-          <CardCategory />
-          <CardCategory />
-          <CardCategory />
-          <CardCategory />
-          <CardCategory />
-          <CardCategory />
-          <CardCategory />
-          <CardCategory />
+        <div className="list grid grid-cols-4 gap-[40px] ">
+          {category.map((value, key) => {
+            return <CardCategory index={key} category={value} />;
+          })}
         </div>
       </div>
     </div>

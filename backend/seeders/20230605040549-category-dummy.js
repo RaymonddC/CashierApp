@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
@@ -12,34 +12,46 @@ module.exports = {
      *   isBetaMember: false
      * }], {});
      */
-    await queryInterface.bulkInsert("categories", [
+    await queryInterface.bulkInsert('categories', [
       {
-        category_name: "Burger",
+        category_name: 'Burger',
+        category_image: 'burger.png',
         createdAt: new Date(),
         updatedAt: new Date(),
       },
       {
-        category_name: "Pizza",
+        category_name: 'Pizza',
+        category_image: 'pizza.png',
         createdAt: new Date(),
         updatedAt: new Date(),
       },
       {
-        category_name: "Snack",
+        category_name: 'Snack',
+        category_image: 'snack.png',
         createdAt: new Date(),
         updatedAt: new Date(),
       },
       {
-        category_name: "Soft Drink",
+        category_name: 'Soft Drink',
+        category_image: 'softDrink.png',
         createdAt: new Date(),
         updatedAt: new Date(),
       },
       {
-        category_name: "Coffee",
+        category_name: 'Coffee',
+        category_image: 'coffee.png',
         createdAt: new Date(),
         updatedAt: new Date(),
       },
       {
-        category_name: "Ice Cream",
+        category_name: 'Ice Cream',
+        category_image: 'eskrim.png',
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        category_name: 'Beer',
+        category_image: 'hardDrink.png',
         createdAt: new Date(),
         updatedAt: new Date(),
       },
@@ -53,6 +65,6 @@ module.exports = {
      * Example:
      * await queryInterface.bulkDelete('People', null, {});
      */
-    await queryInterface.bulkDelete("categories", null, {});
+    await queryInterface.bulkDelete('categories', null, {});
   },
 };

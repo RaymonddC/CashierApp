@@ -21,8 +21,6 @@ export const Login = () => {
   const [showPass, setShowPass] = useState(false);
   const dispatch = useDispatch();
 
-  console.log(user);
-
   if (user) return <Navigate to={'/admin'} />;
   return (
     <div className="flex h-[100vh]">

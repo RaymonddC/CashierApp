@@ -1,6 +1,6 @@
 const { Op, where } = require("sequelize");
 const db = require("../models");
-const { orderMenu, product, user } = db;
+const { orderMenu, product, User } = db;
 const fs = require("fs");
 
 module.exports = {
@@ -13,7 +13,7 @@ module.exports = {
             model: product,
           },
           {
-            model: user,
+            model: User,
             attributes: ["username", "email"],
           },
         ],

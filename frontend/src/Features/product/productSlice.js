@@ -1,6 +1,6 @@
-import { createSlice } from '@reduxjs/toolkit';
-import axios from 'axios';
-import { toast } from 'react-hot-toast';
+import { createSlice } from "@reduxjs/toolkit";
+import axios from "axios";
+import { toast } from "react-hot-toast";
 
 const initialState = {
   dataProduct: [],
@@ -11,7 +11,7 @@ const initialState = {
 };
 
 const productSlice = createSlice({
-  name: 'product',
+  name: "product",
   initialState,
   reducers: {
     setDataProduct: (initialState, action) => {
@@ -36,16 +36,21 @@ const productSlice = createSlice({
 export const getDataProduct = (page, filter) => async (dispatch) => {
   try {
     let param = { page: page };
-    if (filter.category_id) param['searchCategory'] = filter.category_id;
-    if (filter.search) param['searchQuery'] = filter.search;
+    if (filter.category_id) param["searchCategory"] = filter.category_id;
+    if (filter.search) param["searchQuery"] = filter.search;
     if (filter.ordered) {
-      param['ordered'] = filter.ordered;
-      param['orderedBy'] = filter.orderedBy;
+      param["ordered"] = filter.ordered;
+      param["orderedBy"] = filter.orderedBy;
     }
 
-    let response = await axios.get(`${process.env.REACT_APP_API_URL}/products`, {
-      params: param,
-    });
+    console.log(param);
+
+    let response = await axios.get(
+      `${process.env.REACT_APP_API_URL}/products`,
+      {
+        params: param,
+      }
+    );
     if (response.status === 200) {
       dispatch(setIsLoad(false));
     }
@@ -53,23 +58,27 @@ export const getDataProduct = (page, filter) => async (dispatch) => {
     dispatch(setPageCount(response.data.pagination.pageCount));
     console.log(response.data);
   } catch (error) {
-    console.error('error : ' + error);
+    console.error("error : " + error);
   }
 };
 
 export const getAllCategory = () => async (dispatch) => {
   try {
-    let response = await axios.get(`${process.env.REACT_APP_API_URL}/products/categories`);
+    let response = await axios.get(
+      `${process.env.REACT_APP_API_URL}/products/categories`
+    );
     dispatch(setCategory(response.data.data));
     // console.log(response);
   } catch (error) {
-    console.error('error : ' + error);
+    console.error("error : " + error);
   }
 };
 
 export const getDataProductById = (id) => async (dispatch) => {
   try {
-    let response = await axios.get(`${process.env.REACT_APP_API_URL}/products/${id}`);
+    let response = await axios.get(
+      `${process.env.REACT_APP_API_URL}/products/${id}`
+    );
     dispatch(setDataProductById(response.data.data));
     // console.log(response);
   } catch (error) {
@@ -91,13 +100,13 @@ export const postDataProduct = (input) => async (dispatch) => {
       },
       {
         headers: {
-          'Content-Type': 'multipart/form-data',
+          "Content-Type": "multipart/form-data",
         },
       }
     );
     console.log(response.data.data);
     if (response.status === 201) {
-      toast.success('Data Created!');
+      toast.success("Data Created!");
       dispatch(getDataProduct(input.currentPage));
     }
   } catch (error) {
@@ -105,56 +114,60 @@ export const postDataProduct = (input) => async (dispatch) => {
   }
 };
 
-export const updateDataProduct = (currentPage, id, product_name, price, stock, category_id, product_image) => async (dispatch) => {
-  // toast.success(currentPage);
-  try {
-    let result;
-    if (!product_image) {
-      result = await axios.put(
-        `${process.env.REACT_APP_API_URL}/products/${id}`,
-        {
-          product_name,
-          price,
-          stock,
-          category_id,
-        },
-        {
-          headers: {
-            'Content-Type': 'multipart/form-data',
+export const updateDataProduct =
+  (currentPage, id, product_name, price, stock, category_id, product_image) =>
+  async (dispatch) => {
+    // toast.success(currentPage);
+    try {
+      let result;
+      if (!product_image) {
+        result = await axios.put(
+          `${process.env.REACT_APP_API_URL}/products/${id}`,
+          {
+            product_name,
+            price,
+            stock,
+            category_id,
           },
-        }
-      );
-    } else {
-      result = await axios.put(
-        `${process.env.REACT_APP_API_URL}/products/${id}`,
-        {
-          product_name,
-          price,
-          stock,
-          category_id,
-          product_image,
-        },
-        {
-          headers: {
-            'Content-Type': 'multipart/form-data',
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          }
+        );
+      } else {
+        result = await axios.put(
+          `${process.env.REACT_APP_API_URL}/products/${id}`,
+          {
+            product_name,
+            price,
+            stock,
+            category_id,
+            product_image,
           },
-        }
-      );
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          }
+        );
+      }
+      console.log(result);
+      toast.success("Data updated!");
+      dispatch(setDataProductById({}));
+      dispatch(getDataProduct(currentPage));
+    } catch (error) {
+      toast.error(error.message);
     }
-    console.log(result);
-    toast.success('Data updated!');
-    dispatch(setDataProductById({}));
-    dispatch(getDataProduct(currentPage));
-  } catch (error) {
-    toast.error(error.message);
-  }
-};
+  };
 
 export const deleteDataProduct = (id, currentPage) => async (dispatch) => {
   try {
-    let result = await axios.delete(`${process.env.REACT_APP_API_URL}/products/${id}`);
+    let result = await axios.delete(
+      `${process.env.REACT_APP_API_URL}/products/${id}`
+    );
     if (result.status === 200) {
-      toast.success('Data Deleted!');
+      toast.success("Data Deleted!");
       dispatch(getDataProduct(currentPage));
     }
   } catch (error) {
@@ -162,6 +175,13 @@ export const deleteDataProduct = (id, currentPage) => async (dispatch) => {
   }
 };
 
-export const { setDataProduct, setDataProductById, setPageCount, setIsLoad, setCategory } = productSlice.actions;
+export const {
+  setDataProduct,
+  setDataProductById,
+  setPageCount,
+  setIsLoad,
+  setCategory,
+  setOrderMenu,
+} = productSlice.actions;
 
 export default productSlice.reducer;

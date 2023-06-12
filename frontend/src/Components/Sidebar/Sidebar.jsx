@@ -1,15 +1,15 @@
-import React from 'react';
-import LogoutIcon from '@mui/icons-material/Logout';
-import HomeIcon from '@mui/icons-material/Home';
-import DashboardIcon from '@mui/icons-material/Dashboard';
-import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
-import { useDispatch } from 'react-redux';
-import { logoutAsync } from '../../Features/User/UserSlice';
+import React from "react";
+import LogoutIcon from "@mui/icons-material/Logout";
+import HomeIcon from "@mui/icons-material/Home";
+import DashboardIcon from "@mui/icons-material/Dashboard";
+import AdminPanelSettingsIcon from "@mui/icons-material/AdminPanelSettings";
+import { useDispatch } from "react-redux";
+import { logoutAsync } from "../../Features/User/UserSlice";
 
 export const Sidebar = () => {
   let dispatch = useDispatch();
   return (
-    <div className="w-[130px] min-h-screen bg-white flex flex-col justify-between py-5">
+    <div className="min-w-[100px] min-h-screen bg-white flex flex-col justify-between py-5">
       <div className=" min-h-[80px] flex justify-center items-center">
         <div className="w-[50px] h-[50px] bg-[#FF2351]"></div>
       </div>

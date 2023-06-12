@@ -1,8 +1,10 @@
-import { createSlice } from '@reduxjs/toolkit';
-import axios from 'axios';
-import toast from 'react-hot-toast';
+import { createSlice } from "@reduxjs/toolkit";
+import axios from "axios";
+import toast from "react-hot-toast";
 
-const token = localStorage.getItem('token') ? localStorage?.getItem('token') : '';
+const token = localStorage.getItem("token")
+  ? localStorage?.getItem("token")
+  : "";
 
 const initialState = {
   list: [],
@@ -10,7 +12,7 @@ const initialState = {
 };
 
 export const CategorySlice = createSlice({
-  name: 'category',
+  name: "category",
   initialState,
   reducers: {
     onGetData: (initialState, action) => {
@@ -27,8 +29,10 @@ export const CategorySlice = createSlice({
 
 export const getCategoriesAsync = () => async (dispatch) => {
   try {
-    let response = await axios.get(`${process.env.REACT_APP_API_URL}/categories`);
-    console.log('awdaw', response);
+    let response = await axios.get(
+      `${process.env.REACT_APP_API_URL}/categories`
+    );
+    // console.log('awdaw', response);
     dispatch(onSaveData(response.data.data));
   } catch (error) {}
 };

@@ -12,6 +12,7 @@ Router.get('/', categoriesController.getCategories);
 Router.get('/:id', categoriesController.getCategoryById);
 Router.post('/', multerUpload.single('category_image'), categoriesController.createCategory);
 Router.put('/:id', auth.verifyToken, multerUpload.single('category_image'), categoriesController.updateCategory);
+Router.delete('/:id', auth.verifyToken, categoriesController.deleteCategory);
 // Router.delete("/:id", productController.deleteProduct);
 
 module.exports = Router;

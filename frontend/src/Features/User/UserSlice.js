@@ -37,6 +37,7 @@ export const checkCredentialAsync = (email, password) => async (dispatch) => {
       usernameOrEmail: email,
       password: password,
     });
+    console.log(response);
 
     return response.data;
   } catch (error) {
@@ -52,11 +53,13 @@ export const onLoginAsync = (values) => async (dispatch) => {
     // dispatch(toggleBtn());
 
     let result = await dispatch(checkCredentialAsync(email, password));
+    console.log(values);
 
     if (result.length === 0) throw { message: 'Account Not Found' };
 
     localStorage.removeItem('token');
 
+    console.log(result);
     localStorage.setItem('token', result.token);
 
     localStorage.setItem('userId', result.data.id);

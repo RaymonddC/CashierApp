@@ -100,6 +100,7 @@ const userCreate = async (req, res) => {
 const userLogin = async (req, res) => {
   try {
     const { usernameOrEmail, password } = req.body;
+    console.log(usernameOrEmail, password);
 
     if (!usernameOrEmail || !password) throw { message: 'Fill all data', code: 400 };
 

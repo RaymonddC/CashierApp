@@ -18,15 +18,15 @@ export const CashierManagement = () => {
   const [openAdd, setOpenAdd] = useState(false);
 
   const columns = [
-    { field: 'id', headerName: 'ID', width: 70 },
-    { field: 'username', headerName: 'Username', width: 130 },
-    { field: 'Role', headerName: 'Roles', width: 130, valueFormatter: ({ value }) => value.type },
-    { field: 'status', headerName: 'Status', width: 130 },
+    { field: 'id', headerName: 'ID', flex: 1 },
+    { field: 'username', headerName: 'Username', flex: 3 },
+    { field: 'Role', headerName: 'Roles', flex: 1, valueFormatter: ({ value }) => value.type },
+    { field: 'status', headerName: 'Status', flex: 1 },
     {
       field: 'action',
       headerName: 'Action',
       sortable: false,
-      width: 300,
+      flex: 1,
       renderCell: (params) => {
         return (
           <>
@@ -83,7 +83,7 @@ export const CashierManagement = () => {
           </button>
         </div>
         {console.log(cashiers, 'cashier bro =>>>>>>>>>')}
-        <div style={{ height: 400, width: '100%' }}>
+        <div style={{ height: '60%', width: '100%' }}>
           <DataGrid
             rows={cashiers}
             columns={columns}

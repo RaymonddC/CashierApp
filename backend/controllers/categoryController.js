@@ -97,6 +97,7 @@ const updateCategory = async (req, res) => {
     const { id } = req.params;
     const { category_name } = req.body;
     const category_image = req.file?.filename;
+    console.log(id, category_name, category_image, '============>>');
 
     // let user = await User.findByPk(userId);
 
@@ -150,52 +151,38 @@ const updateCategory = async (req, res) => {
   }
 };
 
-// const deleteUser = async (req, res) => {
-//   try {
-//     const { id } = req.params;
-//     // const { token } = req.
+const deleteCategory = async (req, res) => {
+  try {
+    console.log('masokkk');
+    const { id } = req.params;
+    // const { token } = req.
 
-//     let result = await User.findOne({
-//       where: {
-//         id: id,
-//       },
-//     });
+    const deleteCat = await category.destroy({
+      where: {
+        id: id,
+      },
+    });
 
-//     const deleteUser = await User.destroy({
-//       where: {
-//         id: id,
-//       },
-//     });
+    if (!deleteCat) throw { message: 'category Not Found', code: 400 };
 
-//     if (!deleteUser)
-//       return res.status(400).send({
-//         success: false,
-//         message: 'account not found',
-//         data: null,
-//       });
-
-//     const token = generateToken(result);
-
-//     const { password, createdAt, updatedAt, ...showResult } = result.dataValues;
-
-//     return res.status(200).send({
-//       success: true,
-//       message: 'delete user success',
-//       data: showResult,
-//       token: token,
-//     });
-//   } catch (error) {
-//     res.status(500).send({
-//       success: true,
-//       message: error.message,
-//       data: null,
-//     });
-//   }
-// };
+    return res.status(200).send({
+      success: true,
+      message: 'delete category success',
+      data: deleteCat,
+    });
+  } catch (error) {
+    res.status(error.code || 500).send({
+      success: false,
+      message: error.message,
+      data: null,
+    });
+  }
+};
 
 module.exports = {
   getCategories,
   getCategoryById,
   createCategory,
   updateCategory,
+  deleteCategory,
 };

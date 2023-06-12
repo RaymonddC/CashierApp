@@ -21,6 +21,7 @@ module.exports = (sequelize, DataTypes) => {
       role_id: DataTypes.INTEGER,
       user_image: DataTypes.STRING,
       password: DataTypes.STRING,
+      status: DataTypes.ENUM('Enable', 'Disable'),
     },
     {
       sequelize,

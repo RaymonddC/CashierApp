@@ -18,8 +18,10 @@ export const CashierManagement = () => {
   const [openAdd, setOpenAdd] = useState(false);
 
   const columns = [
-    { field: "id", headerName: "ID", flex: 1 },
-    { field: "username", headerName: "Username", flex: 3 },
+    { field: 'id', headerName: 'ID' },
+    { field: 'username', headerName: 'Username' },
+    { field: 'Role', headerName: 'Roles', valueFormatter: ({ value }) => value.type },
+    { field: 'status', headerName: 'Status' },
     {
       field: "Role",
       headerName: "Roles",
@@ -31,7 +33,7 @@ export const CashierManagement = () => {
       field: "action",
       headerName: "Action",
       sortable: false,
-      flex: 1,
+      width: 150,
       renderCell: (params) => {
         return (
           <>
@@ -77,25 +79,29 @@ export const CashierManagement = () => {
     console.log(columns);
   }, []);
   return (
-    <div className="content px-[30px] w-full  scrollbar-hide  md:scrollbar-default">
-      <div className="py-[50px]"></div>
-      <div className="header flex justify-between w-full">
-        <p className="font-bold py-[10px] text-[50px]">Cashier List</p>
-        <button
-          onClick={() => (openAdd ? "" : setOpenAdd(!openAdd))}
-          className="bg-[#FFCA40]  rounded-xl py-[5px] px-[30px]  my-[20px]"
-        >
-          <KeepMountedModal
-            icon={<AddIcon />}
-            button={<span>Add Cashier</span>}
-            open={openAdd}
-            setOpen={setOpenAdd}
-            formBox={
-              <CashierForm
-                handleClose={() => setOpenAdd(false)}
-                cashier={selected}
-              />
-            }
+    <div className="flex ">
+      <Sidebar />
+      <div className="content px-[30px] w-full  scrollbar-hide  md:scrollbar-default">
+        <div className="py-[50px]"></div>
+        <div className="header flex justify-between w-full  py-[10px] flex-col md:flex-row">
+          <p className="font-bold text-[50px]">Cashier List</p>
+          <button onClick={() => (openAdd ? '' : setOpenAdd(!openAdd))} className="bg-[#FFCA40]  rounded-xl py-[5px] px-[30px]  my-[20px]">
+            <KeepMountedModal icon={<AddIcon />} button={<span>Add Cashier</span>} open={openAdd} setOpen={setOpenAdd} formBox={<CashierForm handleClose={() => setOpenAdd(false)} cashier={selected} />} />
+          </button>
+        </div>
+        {console.log(cashiers, 'cashier bro =>>>>>>>>>')}
+        <div style={{ height: '60%', width: '100%' }}>
+          <DataGrid
+            sx={{ overflowX: 'scroll' }}
+            rows={cashiers}
+            columns={columns}
+            initialState={{
+              pagination: {
+                paginationModel: { page: 0, pageSize: 5 },
+              },
+            }}
+            pageSizeOptions={[5, 10]}
+            checkboxSelection
           />
         </button>
       </div>

@@ -24,7 +24,7 @@ export const Login = () => {
   if (user) return <Navigate to={'/admin'} />;
   return (
     <div className="flex h-[100vh]">
-      <div className="image flex-1 bg-cover bg-[url('https://images.unsplash.com/photo-1578474846511-04ba529f0b88?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1974&q=80')]">
+      <div className="image flex-1 bg-cover bg-[url('https://images.unsplash.com/photo-1578474846511-04ba529f0b88?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1974&q=80')] hidden md:block">
         <Card sx={{ minHeight: '100vh', width: '100%' }}>
           <CardCover>
             <img

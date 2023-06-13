@@ -90,8 +90,9 @@ export default function Admin() {
           <Pagination count={pageCount} page={page} onChange={changeHandler} />
         </div>
       </div>
-      <div className="bg-white p-9 flex flex-col justify-between box-border">
+      <div className="bg-white p-9 flex flex-col justify-between box-border absolute right-0 h-[100%]  md:block">
         <h1 className="text-[24px] font-bold">Order Menu</h1>
+
         <OrderMenuCard />
         <div className="flex flex-col justify-center">
           <div className="border-dashed border-t-2 border-gray-400 pt-2 flex justify-between mb-10">

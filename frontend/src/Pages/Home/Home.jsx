@@ -1,11 +1,7 @@
 import { useEffect, useState } from 'react';
-import { Sidebar } from '../../Components/Sidebar/Sidebar';
-import { deleteDataProduct, getDataProduct, setDataProductById } from '../../Features/product/productSlice';
+import { getDataProduct, setDataProductById } from '../../Features/product/productSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import Card from '../../Components/Card/Card';
-
-// icon
-import AddIcon from '@mui/icons-material/Add';
 
 // paginate
 import { Pagination } from '@mui/material';
@@ -90,7 +86,6 @@ export default function Admin() {
 
   return (
     <div className="flex bg-[#f0f0f0]">
-      <Sidebar />
       <div className="w-full h-[100vh] p-9 flex flex-col justify-between">
         {/* <FilterProduct filter={filter} setFilter={setFilter} /> */}
         <Card

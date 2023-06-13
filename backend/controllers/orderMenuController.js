@@ -1,7 +1,5 @@
-const { Op, where } = require("sequelize");
 const db = require("../models");
 const { orderMenu, product, User } = db;
-const fs = require("fs");
 
 module.exports = {
   getOrderMenuById: async (req, res) => {

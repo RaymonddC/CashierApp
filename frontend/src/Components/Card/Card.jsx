@@ -48,7 +48,7 @@ export default function Card(props) {
               window.location.pathname === "/"
                 ? () =>
                     addToOrderMenu({
-                      user_id: 2,
+                      user_id: localStorage.getItem("userId"),
                       product_id: val.id,
                       quantity: 1,
                     })

@@ -16,7 +16,7 @@ export default function OrderMenuCard() {
   const { orderMenu } = useSelector((state) => state.orderMenu);
   console.log(orderMenu);
   useEffect(() => {
-    dispatch(getOrderMenuByIdUser(2));
+    dispatch(getOrderMenuByIdUser(localStorage.getItem("userId")));
   }, []);
   return (
     <div className="flex flex-col gap-3 h-[410px] overflow-y-auto">

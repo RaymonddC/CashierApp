@@ -1,6 +1,6 @@
 const { Op, where } = require("sequelize");
 const db = require("../models");
-const { orderMenu, product, user } = db;
+const { orderMenu, product, User } = db;
 const fs = require("fs");
 
 module.exports = {
@@ -13,7 +13,7 @@ module.exports = {
             model: product,
           },
           {
-            model: user,
+            model: User,
             attributes: ["username", "email"],
           },
         ],
@@ -67,8 +67,6 @@ module.exports = {
       const { id } = req.params;
       const { quantity } = req.body;
 
-      // return res.send(getQuantity);
-
       const result = await orderMenu.update(
         {
           quantity: quantity,
@@ -79,13 +77,11 @@ module.exports = {
           },
         }
       );
-
       return res.status(200).send({
         isError: false,
         message: "OrderMenu Updated!",
         data: result,
       });
-      console.log(req.body);
     } catch (error) {
       console.log(error);
       res.status(error.code || 500).send({
@@ -102,6 +98,28 @@ module.exports = {
       const result = await orderMenu.destroy({
         where: {
           id: Number(id),
+        },
+      });
+      return res.status(200).send({
+        isError: false,
+        message: "delete order success!",
+        data: null,
+      });
+    } catch (error) {
+      res.status(error.code || 500).send({
+        isError: true,
+        message: "Error : " + error,
+        data: null,
+      });
+    }
+  },
+
+  deleteAllOrderMenu: async (req, res) => {
+    try {
+      const { user_id } = req.params;
+      const result = await orderMenu.destroy({
+        where: {
+          user_id: Number(user_id),
         },
       });
       return res.status(200).send({

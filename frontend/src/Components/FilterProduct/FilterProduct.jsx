@@ -57,11 +57,11 @@ export const FilterProduct = (props) => {
           );
         })}
       </div>
-      <div className="orderSearch flex mt-4 gap-5">
+      <div className="orderSearch flex mt-4 gap-5 flex-col md:flex-row">
         <div className="search">
-          <TextField id="outlined-basic" label="Search" variant="outlined" onChange={(e) => setSearch(e.target.value)} />
+          <TextField className="w-full" id="outlined-basic" label="Search" variant="outlined" onChange={(e) => setSearch(e.target.value)} />
         </div>
-        <div className="ordering  w-[20em]">
+        <div className="ordering w-full  md:w-[20em]">
           <Box sx={{ minWidth: 120 }}>
             <FormControl fullWidth>
               <InputLabel id="demo-simple-select-label">Order By</InputLabel>

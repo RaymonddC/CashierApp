@@ -22,6 +22,9 @@ import { Form } from '../../Components/Form/Form';
 import { convertIdr } from '../../helper/convertCurrency';
 import OrderMenuCard from '../../Components/orderMenuCard/orderMenuCard';
 import { deleteOrderMenu } from '../../Features/OrderMenu/OrderMenuSlice';
+import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
+
+import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 
 export default function Admin() {
   const [pageParams, setPageParams] = useSearchParams();
@@ -64,6 +67,7 @@ export default function Admin() {
     p: 4,
   };
 
+  const [openOrder, setOpenOrder] = useState(true);
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => {
@@ -98,8 +102,11 @@ export default function Admin() {
           <Pagination count={pageCount} page={page} onChange={changeHandler} />
         </div>
       </div>
-      <div className="bg-white p-9 flex flex-col justify-between box-border">
-        <h1 className="text-[24px] font-bold">Order Menu</h1>
+      <div className={`bg-white p-9 flex flex-col justify-between box-border absolute h-[100vh] right-0 ${openOrder ? '' : 'hidden'}`}>
+        <div className="headerOrder flex justify-between align-middle items-center">
+          <h1 className="text-[24px] font-bold">Order Menu</h1>
+          <CloseRoundedIcon onClick={() => setOpenOrder(false)} />
+        </div>
         <OrderMenuCard />
         <div className="flex flex-col justify-center">
           <div className="border-dashed border-t-2 border-gray-400 pt-2 flex justify-between mb-10">
@@ -110,6 +117,14 @@ export default function Admin() {
             ORDER NOW
           </button>
         </div>
+      </div>
+      <div
+        className={`iconOrder absolute right-[5%] bottom-[5%] rounded-full h-[50px] w-[50px] drop-shadow-lg flex justify-center items-center bg-white
+       ${openOrder ? 'hidden' : ''}
+      `}
+        onClick={() => setOpenOrder(true)}
+      >
+        <ShoppingCartOutlinedIcon />
       </div>
     </div>
   );

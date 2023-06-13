@@ -23,7 +23,7 @@ function App() {
     <div className="App">
       <Toaster />
       <div className="content">
-        {/* <Sidebar /> */}
+        <Sidebar />
         <Routes>
           <Route path="/" element={<Home />} action={console.log('msuk')} />
           <Route path="/admin" element={<Admin />} action={console.log('admin')} />

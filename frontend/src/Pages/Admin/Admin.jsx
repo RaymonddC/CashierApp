@@ -82,8 +82,7 @@ export default function Admin() {
   }, [pageParams, filter]);
 
   return (
-    <div className="flex bg-[#f0f0f0]">
-      <Sidebar />
+    <div className="bg-[#f0f0f0]">
       <div className="w-full h-[100vh] p-9 flex flex-col justify-between">
         {isLoad ? (
           <div className="h-[100vh] flex justify-center items-center">

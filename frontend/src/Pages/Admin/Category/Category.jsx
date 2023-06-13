@@ -1,14 +1,18 @@
-import React, { useEffect, useState } from 'react';
-import { Sidebar } from '../../../Components/Sidebar/Sidebar';
-import { CardCategory } from '../../../Components/FilterProduct/CardCategory';
-import { useDispatch, useSelector } from 'react-redux';
-import { deleteCategory, getCategoriesAsync, postCategoryAsync } from '../../../Features/Category/CategorySlice';
-import KeepMountedModal from '../../../Components/Modal/KeepMountedModal';
-import AddIcon from '@mui/icons-material/Add';
+import React, { useEffect, useState } from "react";
+import { Sidebar } from "../../../Components/Sidebar/Sidebar";
+import { CardCategory } from "../../../Components/FilterProduct/CardCategory";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  deleteCategory,
+  getCategoriesAsync,
+  postCategoryAsync,
+} from "../../../Features/Category/CategorySlice";
+import KeepMountedModal from "../../../Components/Modal/KeepMountedModal";
+import AddIcon from "@mui/icons-material/Add";
 
-import DeleteIcon from '@mui/icons-material/Delete';
+import DeleteIcon from "@mui/icons-material/Delete";
 
-import { CategoryForm } from '../../../Components/CategoryForm/CategoryForm';
+import { CategoryForm } from "../../../Components/CategoryForm/CategoryForm";
 
 export const Category = () => {
   const category = useSelector((state) => state.category.list);
@@ -27,8 +31,22 @@ export const Category = () => {
         <div className="py-[50px]">test</div>
         <div className="header flex flex-col py-[10px] justify-between w-full md:flex-row">
           <p className="font-bold  text-[50px]">Categories</p>
-          <button onClick={() => (openAdd ? '' : setOpenAdd(!openAdd))} className="bg-[#FFCA40]  rounded-xl py-[5px] px-[30px]  my-[20px]">
-            <KeepMountedModal icon={<AddIcon />} button={<span>Add Category</span>} open={openAdd} setOpen={setOpenAdd} formBox={<CategoryForm handleClose={() => setOpenAdd(false)} category={selected} />} />
+          <button
+            onClick={() => (openAdd ? "" : setOpenAdd(!openAdd))}
+            className="bg-[#FFCA40]  rounded-xl py-[5px] px-[30px]  my-[20px]"
+          >
+            <KeepMountedModal
+              icon={<AddIcon />}
+              button={<span>Add Category</span>}
+              open={openAdd}
+              setOpen={setOpenAdd}
+              formBox={
+                <CategoryForm
+                  handleClose={() => setOpenAdd(false)}
+                  category={selected}
+                />
+              }
+            />
           </button>
         </div>
         <div className="list grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-[40px] ">

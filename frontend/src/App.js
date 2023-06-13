@@ -10,6 +10,7 @@ import { Category } from "./Pages/Admin/Category/Category";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { keepLoginAsync } from "./Features/User/UserSlice";
+import Dashboard from "./Pages/Dashboard/Dashboard";
 
 function App() {
   const dispatch = useDispatch();
@@ -26,6 +27,7 @@ function App() {
           <Route path="/admin" element={<Admin />} />
           <Route path="/login" element={<Login />} />
           <Route path="/categories" element={<Category />} />
+          <Route path="/dashboard" element={<Dashboard />} />
         </Routes>
       </div>
     </div>

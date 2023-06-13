@@ -15,6 +15,7 @@ const {
   authRoute,
   categoriesRoute,
   orderMenuRoute,
+  transactionRoute,
 } = require("./routers");
 
 app.use("/products", productRouter);
@@ -22,6 +23,7 @@ app.use("/categories", categoriesRoute);
 app.use("/auth", authRoute);
 app.use("/users", usersRoute);
 app.use("/ordermenu", orderMenuRoute);
+app.use("/transactions", transactionRoute);
 
 app.listen(PORT, () => {
   console.log(`server started on port ${PORT}`);

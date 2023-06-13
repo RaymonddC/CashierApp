@@ -1,13 +1,12 @@
-const { User, category } = require('./../models');
-const { Op } = require('sequelize');
-const fs = require('fs');
+const { category } = require("./../models");
+const fs = require("fs");
 
 // const generateTable = async (req, res) => {
 //   User.sync({ alter: true });
 //   res.send();
 // };
 
-const checkCategory = async (name = '') => {
+const checkCategory = async (name = "") => {
   return await category.findOne({
     where: {
       category_name: name,
@@ -17,16 +16,16 @@ const checkCategory = async (name = '') => {
 
 const getCategories = async (req, res) => {
   try {
-    console.log('running');
+    console.log("running");
     const { count, rows } = await category.findAndCountAll({
       //   limit: 2,
       //   offset: 1,
     });
-    if (!rows) throw { message: 'No Category Exist!', code: 400 };
+    if (!rows) throw { message: "No Category Exist!", code: 400 };
 
     return res.status(200).send({
       success: true,
-      message: 'get user success',
+      message: "get user success",
       data: rows,
       pagination: {
         pageCount: Math.ceil(count / 2),
@@ -45,11 +44,11 @@ const getCategoryById = async (req, res) => {
   try {
     const categoryy = await category.findByPk(req.params.id);
 
-    if (!categoryy) throw { message: 'category not found!', code: 400 };
+    if (!categoryy) throw { message: "category not found!", code: 400 };
 
     return res.status(200).send({
       success: true,
-      message: 'get category success',
+      message: "get category success",
       data: categoryy,
     });
   } catch (error) {
@@ -66,11 +65,12 @@ const createCategory = async (req, res) => {
     const { category_name } = req.body;
     const category_image = req.file.filename;
 
-    if (!category_name || !category_image) throw { message: 'Fill all data', code: 400 };
+    if (!category_name || !category_image)
+      throw { message: "Fill all data", code: 400 };
 
     const isNameExist = await checkCategory(category_name);
 
-    if (isNameExist) throw { message: 'category is already exists', code: 400 };
+    if (isNameExist) throw { message: "category is already exists", code: 400 };
 
     let newCategory = await category.create({
       category_name,
@@ -79,7 +79,7 @@ const createCategory = async (req, res) => {
 
     return res.status(201).send({
       success: true,
-      message: 'add Category Success!',
+      message: "add Category Success!",
       data: newCategory,
     });
   } catch (error) {
@@ -97,33 +97,36 @@ const updateCategory = async (req, res) => {
     const { id } = req.params;
     const { category_name } = req.body;
     const category_image = req.file?.filename;
-    console.log(id, category_name, category_image, '============>>');
+    console.log(id, category_name, category_image, "============>>");
 
     // let user = await User.findByPk(userId);
 
-    if (user.role_id != 1) throw { message: 'Unauthorize Request', code: 400 };
+    if (user.role_id != 1) throw { message: "Unauthorize Request", code: 400 };
 
     const result = await category.findByPk(id);
 
-    if (!result) throw { message: 'category not found', code: 400 };
+    if (!result) throw { message: "category not found", code: 400 };
 
     //hapus image dari public
-    console.log(user, id, result, 'test');
+    console.log(user, id, result, "test");
 
     const nameValid = await category.findOne({
       where: {
-        category_name: category_name ? category_name : '',
+        category_name: category_name ? category_name : "",
       },
     });
 
-    if (nameValid) throw { message: 'category already registered', code: 400 };
+    if (nameValid) throw { message: "category already registered", code: 400 };
 
-    if (category_image && result.category_image) fs.unlinkSync(`public/category_image/${result.category_image}`);
+    if (category_image && result.category_image)
+      fs.unlinkSync(`public/category_image/${result.category_image}`);
 
     const resultUpdate = await category.update(
       {
         category_name: category_name ? category_name : category.category_name,
-        category_image: category_image ? category_image : category.category_image,
+        category_image: category_image
+          ? category_image
+          : category.category_image,
       },
       {
         where: {
@@ -132,13 +135,13 @@ const updateCategory = async (req, res) => {
       }
     );
 
-    if (!resultUpdate[0]) throw { message: 'No Changes Detected', code: 400 };
+    if (!resultUpdate[0]) throw { message: "No Changes Detected", code: 400 };
 
     const newCategory = await category.findByPk(id);
 
     return res.status(200).send({
       success: true,
-      message: 'Update Category success',
+      message: "Update Category success",
       data: newCategory,
     });
   } catch (error) {
@@ -153,7 +156,7 @@ const updateCategory = async (req, res) => {
 
 const deleteCategory = async (req, res) => {
   try {
-    console.log('masokkk');
+    console.log("masokkk");
     const { id } = req.params;
     // const { token } = req.
 
@@ -163,11 +166,11 @@ const deleteCategory = async (req, res) => {
       },
     });
 
-    if (!deleteCat) throw { message: 'category Not Found', code: 400 };
+    if (!deleteCat) throw { message: "category Not Found", code: 400 };
 
     return res.status(200).send({
       success: true,
-      message: 'delete category success',
+      message: "delete category success",
       data: deleteCat,
     });
   } catch (error) {

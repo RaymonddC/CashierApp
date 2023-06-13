@@ -9,7 +9,7 @@ const initialState = {
 };
 
 const orderMenuSlice = createSlice({
-  name: "product",
+  name: "orderMenu",
   initialState,
   reducers: {
     setOrderMenu: (initialState, action) => {

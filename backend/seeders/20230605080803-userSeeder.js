@@ -1,4 +1,4 @@
-'use strict';
+"use strict";
 
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
@@ -12,20 +12,22 @@ module.exports = {
      *   isBetaMember: false
      * }], {});
      */
-    await queryInterface.bulkInsert('users', [
+    await queryInterface.bulkInsert("users", [
       {
-        username: 'AdminMekdi',
-        email: 'AdminMekdi@gmail.com',
+        username: "AdminMekdi",
+        email: "AdminMekdi@gmail.com",
         role_id: 1,
-        password: '$2b$10$fkne8kAVULIQDAzQxjbEL.B9CvLqzuFVSkWTYC1fOuidheUF5RHnC',
+        password:
+          "$2b$10$fkne8kAVULIQDAzQxjbEL.B9CvLqzuFVSkWTYC1fOuidheUF5RHnC",
         createdAt: new Date(),
         updatedAt: new Date(),
       },
       {
-        username: 'CashierMekdi',
-        email: 'CashierMekdi@gmail.com',
+        username: "CashierMekdi",
+        email: "CashierMekdi@gmail.com",
         role_id: 2,
-        password: '$2b$10$WK1I0YRi9lEBDTvNCuTmV.62RlCEJ4wdP6Bhyojlg54jXNHL.CKsa',
+        password:
+          "$2b$10$WK1I0YRi9lEBDTvNCuTmV.62RlCEJ4wdP6Bhyojlg54jXNHL.CKsa",
         createdAt: new Date(),
         updatedAt: new Date(),
       },
@@ -39,5 +41,6 @@ module.exports = {
      * Example:
      * await queryInterface.bulkDelete('People', null, {});
      */
+    await queryInterface.bulkDelete("users", null, {});
   },
 };

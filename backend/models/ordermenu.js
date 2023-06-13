@@ -12,7 +12,7 @@ module.exports = (sequelize, DataTypes) => {
       orderMenu.belongsTo(models.product, {
         foreignKey: "product_id",
       });
-      orderMenu.belongsTo(models.user, {
+      orderMenu.belongsTo(models.User, {
         foreignKey: "user_id",
       });
     }

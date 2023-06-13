@@ -25,6 +25,7 @@ import Modal from "@mui/material/Modal";
 import { Form } from "../../Components/Form/Form";
 import { convertIdr } from "../../helper/convertCurrency";
 import OrderMenuCard from "../../Components/orderMenuCard/orderMenuCard";
+import { deleteOrderMenu } from "../../Features/OrderMenu/OrderMenuSlice";
 
 export default function Admin() {
   const [pageParams, setPageParams] = useSearchParams();
@@ -111,7 +112,12 @@ export default function Admin() {
             <p className="font-bold">Sub Total</p>
             <p className="font-bold">{convertIdr(subTotal)}</p>
           </div>
-          <button className="bg-[#ffca40] py-5 px-6 w-[338px] rounded-lg font-bold">
+          <button
+            className="bg-[#ffca40] py-5 px-6 w-[338px] rounded-lg font-bold"
+            onClick={() =>
+              dispatch(deleteOrderMenu(localStorage.getItem("userId")))
+            }
+          >
             ORDER NOW
           </button>
         </div>

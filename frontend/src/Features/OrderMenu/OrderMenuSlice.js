@@ -104,6 +104,20 @@ export const decrementQty = (input) => async (dispatch) => {
   }
 };
 
+export const deleteOrderMenu = (user_id) => async (dispatch) => {
+  try {
+    let response = await axios.delete(
+      `${process.env.REACT_APP_API_URL}/ordermenu/all/${user_id}`
+    );
+    if (response.status === 200) {
+      toast.success("Order Transaction created!");
+      dispatch(getOrderMenuByIdUser(2));
+    }
+  } catch (error) {
+    toast.error(error);
+  }
+};
+
 // export const deleteDataProduct = (id, currentPage) => async (dispatch) => {
 //   try {
 //     let result = await axios.delete(

@@ -1,4 +1,4 @@
-const jwt = require('jsonwebtoken');
+const jwt = require("jsonwebtoken");
 
 module.exports = {
   verifyToken: async (req, res, next) => {
@@ -7,18 +7,19 @@ module.exports = {
     if (!token) {
       return res.status(401).send({
         success: false,
-        message: 'Unauthorized',
+        message: "Unauthorized",
         data: null,
       });
     }
 
     try {
-      token = token.split(' ')[1];
-      if (token === null || !token) throw { message: 'Unauthorized', code: 401 };
+      token = token.split(" ")[1];
+      if (token === null || !token)
+        throw { message: "Unauthorized", code: 401 };
 
-      let verifyUser = jwt.verify(token, 'coding-is-easy');
+      let verifyUser = jwt.verify(token, "coding-is-easy");
 
-      if (!verifyUser) throw { message: 'Unauthorized', code: 401 };
+      if (!verifyUser) throw { message: "Unauthorized", code: 401 };
 
       req.user = verifyUser;
       next();
@@ -32,7 +33,7 @@ module.exports = {
   },
 
   checkRole: async (req, res, next) => {
-    console.log('role jalan loh sat');
+    console.log("role jalan loh sat");
     next();
   },
 };

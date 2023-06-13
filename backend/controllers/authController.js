@@ -1,21 +1,21 @@
-const { User } = require('./../models');
-const { Op } = require('sequelize');
-const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
+const { User } = require("./../models");
+const { Op } = require("sequelize");
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 // const Handlebars = require('handlebars');
-const fs = require('fs');
+const fs = require("fs");
 
 // const User = db.user;
 
-const sequelize = require('sequelize');
+const sequelize = require("sequelize");
 
 const generateToken = async (result) => {
   let payload = {
     id: result?.id,
   };
 
-  return jwt.sign(payload, 'coding-is-easy', {
-    expiresIn: '1h',
+  return jwt.sign(payload, "coding-is-easy", {
+    expiresIn: "1h",
   });
 };
 
@@ -29,7 +29,7 @@ const avoidPassword = (result) => {
 //   res.send();
 // };
 
-const getUser = async (email = '', username = '') => {
+const getUser = async (email = "", username = "") => {
   return await User.findOne({
     where: {
       [Op.or]: [{ email: email }, { username: username }],
@@ -39,13 +39,14 @@ const getUser = async (email = '', username = '') => {
 
 const getUserById = async (req, res) => {
   try {
+    console.log(req.user.id);
     const user = await User.findByPk(req.user.id);
 
-    if (!user) throw { message: 'user not found!', code: 400 };
+    if (!user) throw { message: "user not found!", code: 400 };
 
     return res.status(200).send({
       success: true,
-      message: 'get user success',
+      message: "get user success",
       data: avoidPassword(user),
     });
   } catch (error) {
@@ -61,15 +62,19 @@ const userCreate = async (req, res) => {
   try {
     const { username, email, password, confirmPassword, role } = req.body;
 
-    if (!username || !email || !password || !confirmPassword) throw { message: 'Fill all data', code: 400 };
+    if (!username || !email || !password || !confirmPassword)
+      throw { message: "Fill all data", code: 400 };
 
-    if (password.length < 8) throw { message: 'Pasword must be more than 8 characters', code: 400 };
+    if (password.length < 8)
+      throw { message: "Pasword must be more than 8 characters", code: 400 };
 
-    if (password != confirmPassword) throw { message: 'Pasword salah blok', code: 400 };
+    if (password != confirmPassword)
+      throw { message: "Pasword salah blok", code: 400 };
 
     const isEmailExist = await getUser(email, username);
 
-    if (isEmailExist) throw { message: 'username or email is already exists', code: 400 };
+    if (isEmailExist)
+      throw { message: "username or email is already exists", code: 400 };
 
     const salt = await bcrypt.genSalt(10);
     const hashPassword = await bcrypt.hash(password, salt);
@@ -84,7 +89,7 @@ const userCreate = async (req, res) => {
     newUser = avoidPassword(newUser);
     return res.status(201).send({
       success: true,
-      message: 'Register Success!',
+      message: "Register Success!",
       data: newUser,
     });
   } catch (error) {
@@ -100,11 +105,12 @@ const userLogin = async (req, res) => {
   try {
     const { usernameOrEmail, password } = req.body;
 
-    if (!usernameOrEmail || !password) throw { message: 'Fill all data', code: 400 };
+    if (!usernameOrEmail || !password)
+      throw { message: "Fill all data", code: 400 };
 
     let result = await getUser(usernameOrEmail, usernameOrEmail);
 
-    if (!result) throw { message: 'account not found', code: 400 };
+    if (!result) throw { message: "account not found", code: 400 };
     console.log(usernameOrEmail, password, result);
 
     const isUserExists = await bcrypt.compare(password, result.password);
@@ -116,7 +122,7 @@ const userLogin = async (req, res) => {
 
       //   result = await getUser(usernameOrEmail, usernameOrEmail);
 
-      throw { message: 'account not found', code: 400 };
+      throw { message: "account not found", code: 400 };
     } else {
       const token = await generateToken(result);
 
@@ -124,11 +130,12 @@ const userLogin = async (req, res) => {
 
       //   result = await getUser(usernameOrEmail, usernameOrEmail);
 
-      const { password, createdAt, updatedAt, ...showResult } = result.dataValues;
+      const { password, createdAt, updatedAt, ...showResult } =
+        result.dataValues;
 
       return res.status(200).send({
         success: true,
-        message: 'user login success',
+        message: "user login success",
         data: showResult,
         token: token,
       });
@@ -152,13 +159,13 @@ const getAllUser = async (req, res) => {
     if (result)
       res.status(200).send({
         success: true,
-        message: 'getAllUser Success',
+        message: "getAllUser Success",
         data: result,
       });
     else
       res.status(400).send({
         success: true,
-        message: 'getAllUser failed',
+        message: "getAllUser failed",
         data: null,
       });
   } catch (error) {
@@ -173,7 +180,15 @@ const getAllUser = async (req, res) => {
 const updateUser = async (req, res) => {
   try {
     const { id } = req.user;
-    const { firstName, lastName, username, email, birthdate, biography, phoneNumber } = req.body;
+    const {
+      firstName,
+      lastName,
+      username,
+      email,
+      birthdate,
+      biography,
+      phoneNumber,
+    } = req.body;
 
     let result = await User.findOne({
       where: {
@@ -184,33 +199,33 @@ const updateUser = async (req, res) => {
     if (!result)
       return res.status(400).send({
         success: false,
-        message: 'account not found',
+        message: "account not found",
         data: null,
       });
 
     const emailValid = await User.findOne({
       where: {
-        email: email ? email : '',
+        email: email ? email : "",
       },
     });
 
     if (emailValid)
       return res.status(400).send({
         success: false,
-        message: 'email already registered',
+        message: "email already registered",
         data: null,
       });
 
     const usernameValid = await User.findOne({
       where: {
-        username: username ? username : '',
+        username: username ? username : "",
       },
     });
 
     if (usernameValid)
       return res.status(400).send({
         success: false,
-        message: 'username already used',
+        message: "username already used",
         data: null,
       });
 
@@ -253,7 +268,7 @@ const updateUser = async (req, res) => {
 
     return res.status(200).send({
       success: true,
-      message: 'Update User success',
+      message: "Update User success",
       data: showResult,
       token: token,
     });
@@ -286,7 +301,7 @@ const deleteUser = async (req, res) => {
     if (!deleteUser)
       return res.status(400).send({
         success: false,
-        message: 'account not found',
+        message: "account not found",
         data: null,
       });
 
@@ -296,7 +311,7 @@ const deleteUser = async (req, res) => {
 
     return res.status(200).send({
       success: true,
-      message: 'delete user success',
+      message: "delete user success",
       data: showResult,
       token: token,
     });
@@ -319,7 +334,7 @@ const activateUser = async (req, res) => {
         email: email,
       },
     });
-    console.log('masuk beken', result, activationCode, email);
+    console.log("masuk beken", result, activationCode, email);
 
     if (
       result.dataValues.activationCode !== activationCode
@@ -328,7 +343,7 @@ const activateUser = async (req, res) => {
       console.log(result.dataValues.activationCode, activationCode);
       return res.status(400).send({
         success: true,
-        message: 'activationCode invalid',
+        message: "activationCode invalid",
         data: null,
       });
     }
@@ -356,7 +371,7 @@ const activateUser = async (req, res) => {
 
     return res.status(200).send({
       success: true,
-      message: 'User Activated',
+      message: "User Activated",
       data: result,
       token: token,
     });
@@ -378,10 +393,10 @@ const forgetPassword = async (req, res) => {
     if (!isEmailExist) {
       return res.status(400).send({
         success: false,
-        message: 'username or email not found',
+        message: "username or email not found",
       });
     } else {
-      const data = fs.readFileSync('./email/emailForgetPassword.html', 'utf-8');
+      const data = fs.readFileSync("./email/emailForgetPassword.html", "utf-8");
 
       const tempCompile = await Handlebars.compile(data);
       const tempResult = tempCompile({
@@ -390,17 +405,17 @@ const forgetPassword = async (req, res) => {
       });
 
       await transporter.sendMail({
-        sender: 'sosmed',
-        to: 'raymondchrisandy@gmail.com',
-        subject: 'Forget Password',
+        sender: "sosmed",
+        to: "raymondchrisandy@gmail.com",
+        subject: "Forget Password",
         html: tempResult,
       });
 
       // newUser = avoidPassword(newUser);
-      console.log('forget');
+      console.log("forget");
       return res.status(201).send({
         success: true,
-        message: 'Email Send',
+        message: "Email Send",
         data: null,
       });
     }
@@ -422,21 +437,21 @@ const changePassword = async (req, res) => {
     if (!isEmailExist) {
       return res.status(400).send({
         success: false,
-        message: 'username or email not found',
+        message: "username or email not found",
       });
     }
 
     if (password.length < 8)
       return res.status(400).send({
         success: false,
-        message: 'Pasword must be more than 8 characters',
+        message: "Pasword must be more than 8 characters",
         data: null,
       });
 
     if (password != confirmPassword) {
       return res.status(400).send({
         success: false,
-        message: 'Pasword salah blok',
+        message: "Pasword salah blok",
         data: null,
       });
     }
@@ -475,7 +490,7 @@ const changePassword = async (req, res) => {
 
     return res.status(200).send({
       success: true,
-      message: 'Password Changed',
+      message: "Password Changed",
       data: result,
       token: token,
     });

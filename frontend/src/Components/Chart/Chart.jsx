@@ -60,7 +60,7 @@ export default function Chart() {
       >
         <CartesianGrid strokeDasharray="3 3" />
         <XAxis dataKey="transaction_date" />
-        <YAxis type="number" domain={[0, 340000]} />
+        <YAxis type="number" domain={[0, 400000]} />
         <Tooltip />
         <Legend />
         <Line

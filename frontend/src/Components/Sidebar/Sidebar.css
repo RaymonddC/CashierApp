@@ -1,0 +1,116 @@
+.sidebar {
+  position: absolute;
+  /* width: 240px;
+  height: 720px; */
+
+  border: 1px solid rgba(9, 36, 75, 0.2);
+  filter: drop-shadow(0px 0px 30px rgba(0, 0, 0, 0.1));
+  border-radius: 8px;
+  z-index: 40;
+}
+
+.menus {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 20px 16px;
+  gap: 8px;
+}
+p {
+  color: #526581;
+}
+
+.cardIconSidebar {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 10px 0px 10px 16px;
+  gap: 12px;
+  width: 100%;
+}
+
+.profile {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  gap: 8px;
+
+  /* position: absolute; */
+  width: 240px;
+  height: 80px;
+  left: 0px;
+  bottom: 0;
+
+  background: rgba(9, 36, 75, 0.03);
+  box-shadow: inset 0px 1px 0px #f2f4f6;
+  border-radius: 0 0 0 8px;
+}
+
+.avatar {
+  width: 40px;
+  height: 40px;
+
+  /* Inside auto layout */
+
+  flex: none;
+  order: 0;
+  flex-grow: 0;
+  order-radius: ;
+}
+.detail {
+  width: 124px;
+  height: 36px;
+
+  /* Inside auto layout */
+
+  flex: none;
+  order: 1;
+  flex-grow: 0;
+}
+.username {
+  width: 124px;
+  height: 20px;
+
+  /* H4(14\20) */
+
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 20px;
+  /* identical to box height, or 143% */
+
+  /* Grey/01 */
+
+  color: #09244b;
+}
+
+.email {
+  width: 124px;
+  height: 18px;
+
+  /* H5r(12\18) */
+
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 18px;
+  /* identical to box height, or 150% */
+
+  /* Grey/03 */
+
+  color: #8491a5;
+}
+
+.logout {
+  color: #b5bdc9;
+  width: 20px;
+  height: 20px;
+
+  /* Inside auto layout */
+
+  flex: none;
+  order: 2;
+  flex-grow: 0;
+}

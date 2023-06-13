@@ -64,6 +64,8 @@ export const onLoginAsync = (values) => async (dispatch) => {
 
     localStorage.setItem('userId', result.data.id);
 
+    // console.log(result)
+
     dispatch(onSaveUser(result.data));
 
     toast.success('Login Success!');
@@ -185,9 +187,11 @@ export const keepLoginAsync = () => async (dispatch) => {
 export const logoutAsync = () => async (dispatch) => {
   try {
     let id = localStorage.getItem('userId');
-
-    if (id) {
+    let token = localStorage.getItem('token');
+    console.log('function');
+    if (id && token) {
       localStorage.clear('userId');
+      localStorage.clear('token');
       dispatch(onSaveUser(null));
     }
     toast.success('Logout Success!');

@@ -46,10 +46,10 @@ export default function Chart() {
   const { graphData } = useSelector((state) => state.transaction);
   console.log(graphData);
   return (
-    <ResponsiveContainer width="100%" aspect={3}>
+    <ResponsiveContainer width="95%" height="100%">
       <LineChart
-        width={900}
-        height={900}
+        width={500}
+        height={300}
         data={graphData}
         margin={{
           top: 5,
@@ -60,10 +60,15 @@ export default function Chart() {
       >
         <CartesianGrid strokeDasharray="3 3" />
         <XAxis dataKey="transaction_date" />
-        <YAxis dataKey="Total_Aggragate" />
+        <YAxis type="number" domain={[0, 340000]} />
         <Tooltip />
         <Legend />
-        <Line type="monotone" dataKey="Total_Aggragate" stroke="#82ca9d" />
+        <Line
+          type="monotone"
+          dataKey="Total_Aggragate"
+          stroke="#82ca9d"
+          strokeWidth="px"
+        />
       </LineChart>
     </ResponsiveContainer>
   );

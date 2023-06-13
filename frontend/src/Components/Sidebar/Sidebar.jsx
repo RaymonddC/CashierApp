@@ -3,7 +3,7 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import HomeIcon from '@mui/icons-material/Home';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { logoutAsync } from '../../Features/User/UserSlice';
 import './Sidebar.css';
 import LogoutRoundedIcon from '@mui/icons-material/LogoutRounded';
@@ -14,16 +14,17 @@ import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import CategoryOutlinedIcon from '@mui/icons-material/CategoryOutlined';
 import GroupAddOutlinedIcon from '@mui/icons-material/GroupAddOutlined';
 import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
-import { Link } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
 
 export const Sidebar = () => {
   let dispatch = useDispatch();
   const [openMenu, setOpenMenu] = useState(false);
+  const { user } = useSelector((state) => state.user);
 
   return (
     <div
-      className={` shrink-0 bg-white/95 lg:bg-white/100 sidebar   overflow-hidden ease-in-out duration-150 flex flex-col justify-between lg:min-h-[100vh] ${
-        openMenu ? '  w-[75%] lg:w-[240px]' : 'w-[50px] h-[50px] pt-[8px] flex-row  lg:w-[80px] lg:relative'
+      className={` shrink-0 bg-white/95 lg:bg-white/100 sidebar   overflow-hidden ease-in-out duration-150 flex flex-col justify-between md:min-h-[100vh] ${
+        openMenu ? '  w-[75%] lg:w-[240px] min-h-[100%]' : 'w-[50px] h-[50px] pt-[8px] flex-row  md:w-[80px] '
       } `}
     >
       <div className="button  h-[10vh] w-[100%] z-50 flex justify-center">
@@ -37,7 +38,7 @@ export const Sidebar = () => {
         </button>
       </div>
       <div className="menus text-[#8491A5] min-h-[70vh]">
-        <p>search</p>
+        {/* <p>search</p> */}
         <div>
           <Link to={'/admin'} className="cardIconSidebar">
             <HomeOutlinedIcon />
@@ -45,13 +46,13 @@ export const Sidebar = () => {
           </Link>
         </div>
         <div>
-          <Link to={'/admin'} className="cardIconSidebar">
+          <Link to={'/'} className="cardIconSidebar">
             <ShoppingCartOutlinedIcon />
             <p className={`${openMenu ? '' : 'invisible'}`}>Order</p>
           </Link>
         </div>
         <div>
-          <Link to={'/'} className="cardIconSidebar">
+          <Link to={'/categories'} className="cardIconSidebar">
             <CategoryOutlinedIcon />
             <p className={`${openMenu ? '' : 'invisible'}`}>Category</p>
           </Link>
@@ -63,7 +64,7 @@ export const Sidebar = () => {
           </Link>
         </div>
         <div>
-          <Link to={'/'} className="cardIconSidebar">
+          <Link className="cardIconSidebar">
             <PersonOutlineOutlinedIcon />
             <p className={`${openMenu ? '' : 'invisible'}`}>Profile</p>
           </Link>
@@ -74,12 +75,22 @@ export const Sidebar = () => {
           <img src={`http://localhost:5000/product_image/IMG1685974633294.png`} alt="" />
         </div>
         <div className={`detail ${openMenu ? '' : 'invisible'}`}>
-          <p className="username">Gue</p>
-          <p className="email">gue@gmail.com</p>
+          {console.log(user)}
+          <p className="username">{user?.username || 'Please Login'}</p>
+          <p className="email">{user?.username ? `${user?.username}@gmail.com` : ''}</p>
         </div>
-        <div className="logout" onClick={() => logoutAsync()}>
-          <LogoutRoundedIcon />
-        </div>
+        {user ? (
+          <div
+            className="logout"
+            onClick={() => {
+              dispatch(logoutAsync());
+            }}
+          >
+            <LogoutRoundedIcon />
+          </div>
+        ) : (
+          ''
+        )}
       </div>
     </div>
     // <div className="min-w-[100px] min-h-screen bg-white flex flex-col justify-between py-5">

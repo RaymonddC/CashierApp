@@ -40,14 +40,14 @@ const getUser = async (email = '', username = '') => {
 
 const getUserById = async (req, res) => {
   try {
-    const user = await User.findByPk(req.user.id);
+    const user = await User.findByPk(req.user.id, { attributes: { exclude: ['password', 'createdAt', 'updatedAt'] } });
 
     if (!user) throw { message: 'user not found!', code: 400 };
 
     return res.status(200).send({
       success: true,
       message: 'get user success',
-      data: avoidPassword(user),
+      data: user,
     });
   } catch (error) {
     res.status(error.code || 500).send({

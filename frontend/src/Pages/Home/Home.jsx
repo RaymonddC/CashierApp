@@ -86,7 +86,7 @@ export default function Admin() {
 
   return (
     <div className="flex bg-[#f0f0f0]">
-      {/* <Sidebar /> */}
+      <Sidebar />
       <div className="w-full h-[100vh] p-9 flex flex-col justify-between">
         {/* <FilterProduct filter={filter} setFilter={setFilter} /> */}
         <Card

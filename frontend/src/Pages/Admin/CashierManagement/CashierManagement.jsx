@@ -75,7 +75,7 @@ export const CashierManagement = () => {
     <div className="flex ">
       <Sidebar />
       <div className="content px-[30px] w-full  scrollbar-hide  md:scrollbar-default">
-        <div className="py-[50px]">test</div>
+        <div className="py-[50px]"></div>
         <div className="header flex justify-between w-full">
           <p className="font-bold py-[10px] text-[50px]">Cashier List</p>
           <button onClick={() => (openAdd ? '' : setOpenAdd(!openAdd))} className="bg-[#FFCA40]  rounded-xl py-[5px] px-[30px]  my-[20px]">

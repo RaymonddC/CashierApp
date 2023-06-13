@@ -58,11 +58,11 @@ export const Login = () => {
             initialValues={{ email: '', password: '' }}
             validate={(values) => {
               const errors = {};
-              if (!values.email) {
-                errors.email = 'Required';
-              } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)) {
-                errors.email = 'Invalid email address';
-              }
+              // if (!values.email) {
+              //   errors.email = 'Required';
+              // } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)) {
+              //   errors.email = 'Invalid email address';
+              // }
               return errors;
             }}
             onSubmit={(values, { setSubmitting }) => {
@@ -86,7 +86,7 @@ export const Login = () => {
               <form onSubmit={handleSubmit} className="">
                 {/* <p className="font-semibold">E-mail</p> */}
                 <div className="inputEmail my-[20px]">
-                  <input type="email" name="email" onChange={handleChange} placeholder="Enter Your e-mail" className="pl-[20px] pr-[15px] py-[20px] bg-[#EEEEEE] rounded-xl w-full " onBlur={handleBlur} value={values.email} />
+                  <input type="text" name="email" onChange={handleChange} placeholder="Enter Your e-mail" className="pl-[20px] pr-[15px] py-[20px] bg-[#EEEEEE] rounded-xl w-full " onBlur={handleBlur} value={values.email} />
                   {errors.email && touched.email && errors.email}
                 </div>
                 {/* <p className="font-semibold">Password</p> */}

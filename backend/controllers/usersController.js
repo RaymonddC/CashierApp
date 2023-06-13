@@ -1,4 +1,4 @@
-const { User } = require('./../models');
+const { User, Role } = require('./../models');
 const { Op } = require('sequelize');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
@@ -21,7 +21,7 @@ const generateToken = async (result) => {
 };
 
 const avoidPassword = (result) => {
-  const { password, createdAt, updatedAt, ...showResult } = result.dataValues;
+  const { password, createdAt, updatedAt, ...showResult } = result;
   return showResult;
 };
 
@@ -40,14 +40,14 @@ const getUser = async (email = '', username = '') => {
 
 const getUserById = async (req, res) => {
   try {
-    const user = await User.findByPk(req.user.id);
+    const user = await User.findByPk(req.user.id, { attributes: { exclude: ['password', 'createdAt', 'updatedAt'] } });
 
     if (!user) throw { message: 'user not found!', code: 400 };
 
     return res.status(200).send({
       success: true,
       message: 'get user success',
-      data: avoidPassword(user),
+      data: user,
     });
   } catch (error) {
     res.status(error.code || 500).send({
@@ -100,6 +100,7 @@ const userCreate = async (req, res) => {
 const userLogin = async (req, res) => {
   try {
     const { usernameOrEmail, password } = req.body;
+    console.log(usernameOrEmail, password);
 
     if (!usernameOrEmail || !password) throw { message: 'Fill all data', code: 400 };
 
@@ -144,27 +145,26 @@ const userLogin = async (req, res) => {
   }
 };
 
-const getAllUser = async (req, res) => {
+const getAllCashier = async (req, res) => {
   try {
-    const result = await User.findAll({
-      include: [Post],
+    let result = await User.findAll({
+      where: {
+        role_id: 2,
+      },
+      include: { model: Role, attributes: ['type'] },
+      attributes: { exclude: ['password', 'createdAt', 'updatedAt'] },
     });
 
-    if (result)
-      res.status(200).send({
-        success: true,
-        message: 'getAllUser Success',
-        data: result,
-      });
-    else
-      res.status(400).send({
-        success: true,
-        message: 'getAllUser failed',
-        data: null,
-      });
-  } catch (error) {
-    res.status(500).send({
+    if (!result) throw { message: 'getAllCashier failed', code: 400 };
+
+    res.status(200).send({
       success: true,
+      message: 'getAllCashier Success',
+      data: result,
+    });
+  } catch (error) {
+    res.status(error.code || 500).send({
+      success: false,
       message: error.message,
       data: null,
     });
@@ -173,34 +173,17 @@ const getAllUser = async (req, res) => {
 
 const updateUser = async (req, res) => {
   try {
-    const { id } = req.user;
-    const { firstName, lastName, username, email, birthdate, biography, phoneNumber } = req.body;
+    const { id } = req.params;
+    const { username, email, password, confirmPassword, user_image } = req.body;
 
+    console.log(id, username);
     let result = await User.findOne({
       where: {
         id: id,
       },
     });
 
-    if (!result)
-      return res.status(400).send({
-        success: false,
-        message: 'account not found',
-        data: null,
-      });
-
-    const emailValid = await User.findOne({
-      where: {
-        email: email ? email : '',
-      },
-    });
-
-    if (emailValid)
-      return res.status(400).send({
-        success: false,
-        message: 'email already registered',
-        data: null,
-      });
+    if (!result) throw { message: 'account not found', code: 400 };
 
     const usernameValid = await User.findOne({
       where: {
@@ -208,27 +191,19 @@ const updateUser = async (req, res) => {
       },
     });
 
-    if (usernameValid)
-      return res.status(400).send({
-        success: false,
-        message: 'username already used',
-        data: null,
-      });
+    if (usernameValid) throw { message: 'username already taken', code: 400 };
 
     const user = result.dataValues;
 
+    console.log(username);
     const resultUpdate = await User.update(
       {
-        firstName: firstName ? firstName : user.firstName,
-        lastName: lastName ? lastName : user.lastName,
-        birthdate: birthdate ? birthdate : user.birthdate,
-        phoneNumber: phoneNumber ? phoneNumber : user.phoneNumber,
-        biography: biography ? biography : user.biography,
         username: username ? username : user.username,
-        password: user.password,
-        activationCode: user.activationCode,
-        isAdmin: user.isAdmin,
-        suspendCounter: user.suspendCounter,
+        email: email ? email : user.email,
+        user_image: user_image ? user_image : user.user_image,
+        password: password ? password : user.password,
+        role_id: user.role_id,
+        status: user.status,
       },
       {
         where: {
@@ -243,24 +218,14 @@ const updateUser = async (req, res) => {
       },
     });
 
-    let payload = {
-      id: req.user.id,
-      isAdmin: req.user.isAdmin,
-    };
-
-    const token = generateToken(req.user);
-
-    const { password, createdAt, updatedAt, ...showResult } = result.dataValues;
-
     return res.status(200).send({
       success: true,
       message: 'Update User success',
-      data: showResult,
-      token: token,
+      data: result,
     });
   } catch (error) {
-    res.status(500).send({
-      success: true,
+    res.status(error.code || 500).send({
+      success: false,
       message: error.message,
       data: null,
     });
@@ -284,14 +249,8 @@ const deleteUser = async (req, res) => {
       },
     });
 
-    if (!deleteUser)
-      return res.status(400).send({
-        success: false,
-        message: 'account not found',
-        data: null,
-      });
-
-    const token = generateToken(result);
+    console.log(deleteUser);
+    if (!deleteUser) throw { message: 'account not found', code: 400 };
 
     const { password, createdAt, updatedAt, ...showResult } = result.dataValues;
 
@@ -299,11 +258,10 @@ const deleteUser = async (req, res) => {
       success: true,
       message: 'delete user success',
       data: showResult,
-      token: token,
     });
   } catch (error) {
-    res.status(500).send({
-      success: true,
+    res.status(error.code || 500).send({
+      success: false,
       message: error.message,
       data: null,
     });
@@ -494,10 +452,11 @@ module.exports = {
   userCreate,
   //   getAllUser,
   userLogin,
-  //   updateUser,
-  //   deleteUser,
+  updateUser,
+  deleteUser,
   //   activateUser,
   getUserById,
+  getAllCashier,
   //   forgetPassword,
   //   changePassword,
 };

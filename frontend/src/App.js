@@ -10,6 +10,8 @@ import { Category } from "./Pages/Admin/Category/Category";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { keepLoginAsync } from "./Features/User/UserSlice";
+import { CashierManagement } from "./Pages/Admin/CashierManagement/CashierManagement";
+import { Sidebar } from "./Components/Sidebar/Sidebar";
 import Dashboard from "./Pages/Dashboard/Dashboard";
 
 function App() {
@@ -22,12 +24,18 @@ function App() {
     <div className="App">
       <Toaster />
       <div className="content">
+        {/* <Sidebar /> */}
         <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/admin" element={<Admin />} />
+          <Route path="/" element={<Home />} action={console.log("msuk")} />
+          <Route
+            path="/admin"
+            element={<Admin />}
+            action={console.log("admin")}
+          />
           <Route path="/login" element={<Login />} />
           <Route path="/categories" element={<Category />} />
           <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/cashiers" element={<CashierManagement />} />
         </Routes>
       </div>
     </div>

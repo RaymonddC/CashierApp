@@ -37,7 +37,7 @@ export default function KeepMountedModal(props) {
       </Button>
       <Modal keepMounted open={open} onClose={handleClose} aria-labelledby="keep-mounted-modal-title" aria-describedby="keep-mounted-modal-description">
         <Box sx={style}>
-          <p className="flex justify-center text-[25px] py-[1em] font-bold">Add Category</p>
+          <p className="flex justify-center text-[25px] py-[1em] font-bold">{props.button}</p>
           {props.formBox}
         </Box>
       </Modal>

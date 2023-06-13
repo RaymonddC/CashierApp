@@ -45,7 +45,7 @@ export const Category = () => {
                   <CardCategory index={key} category={value} />
                 </div>
                 <div
-                  className="absolute bottom-10 right-10 text-red-900 z-50"
+                  className="absolute bottom-10 right-10 text-red-900 z-30"
                   onClick={() => {
                     dispatch(deleteCategory({ id: value.id }));
                   }}

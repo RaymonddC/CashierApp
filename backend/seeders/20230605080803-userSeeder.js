@@ -19,6 +19,7 @@ module.exports = {
         role_id: 1,
         password:
           "$2b$10$fkne8kAVULIQDAzQxjbEL.B9CvLqzuFVSkWTYC1fOuidheUF5RHnC",
+        status: "Enable",
         createdAt: new Date(),
         updatedAt: new Date(),
       },
@@ -28,6 +29,7 @@ module.exports = {
         role_id: 2,
         password:
           "$2b$10$WK1I0YRi9lEBDTvNCuTmV.62RlCEJ4wdP6Bhyojlg54jXNHL.CKsa",
+        status: "Disable",
         createdAt: new Date(),
         updatedAt: new Date(),
       },

@@ -22,7 +22,7 @@ export const CardCategory = (props) => {
       className={`border shadow-md rounded-[3em] h-[25em] max-h-[95%]  justify-center flex flex-col p-[2em] pt-[3em]  hover:bg-[#FFCA40] gap-[1em]  ${props.class} `}
     >
       <div className="image px-[10%] max-h-[100%] flex justify-center">
-        <img className="max-h-[100%]" src={`http://localhost:5000/category_image/${props.category?.category_image}`} alt="" />
+        <img className="h-[100%]  max-h-[150px]" src={`http://localhost:5000/category_image/${props.category?.category_image}`} alt="" />
       </div>
       <div className="desc flex flex-col text-center">
         <p className="text-[1.5em] font-bold">{props.category?.category_name}</p>

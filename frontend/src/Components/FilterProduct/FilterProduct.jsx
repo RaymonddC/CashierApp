@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getCategoriesAsync } from '../../Features/Category/CategorySlice';
 import { CardCategory } from './CardCategory';
 import { Box, FormControl, InputLabel, MenuItem, Select, TextField } from '@mui/material';
+import {  setFilterUpdated } from '../../Features/product/productSlice';
 
 export const FilterProduct = (props) => {
   const category = useSelector((state) => state.category.list);
@@ -29,6 +30,7 @@ export const FilterProduct = (props) => {
     setOrder(event.target.value);
   };
 
+  console.log(catId);
   useEffect(() => {
     // console.log(catId, 'filterSet====>>>>>>>>>');
     props.setFilter({
@@ -38,6 +40,7 @@ export const FilterProduct = (props) => {
       search: search,
     });
     // console.log(props.filter);
+    console.log("jalan coy");
   }, [newOrdered, newOrderedBy, catId, search]);
 
   useEffect(() => {

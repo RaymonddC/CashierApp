@@ -15,9 +15,11 @@ import {
 export default function Card(props) {
   const dispatch = useDispatch();
   const { orderMenu } = useSelector((state) => state.orderMenu);
+  const {filter} = useSelector((state) => state.product);
+
 
   const deleteHandler = (id) => {
-    dispatch(deleteDataProduct(id, props.currentPage));
+    dispatch(deleteDataProduct(id, props.currentPage, filter));
   };
   const addToOrderMenu = (data) => {
     for (let i = 0; i < orderMenu.length; i++) {

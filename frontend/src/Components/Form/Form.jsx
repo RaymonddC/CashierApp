@@ -21,7 +21,7 @@ import {
 
 export const Form = (props) => {
   const dispatch = useDispatch();
-  const { category, dataProductById } = useSelector((state) => state.product);
+  const { category, dataProductById,filter } = useSelector((state) => state.product);
   const formik = useFormik({
     initialValues: {
       productName: "",
@@ -65,7 +65,8 @@ export const Form = (props) => {
             productName,
             price,
             stock,
-            category
+            category,
+            filter
           )
         );
         props.handleClose();
@@ -81,7 +82,7 @@ export const Form = (props) => {
             price,
             stock,
             category,
-            productImage
+            productImage,filter
           )
         );
         props.handleClose();
@@ -94,6 +95,7 @@ export const Form = (props) => {
             category,
             productImage,
             currentPage,
+            filter
           })
         );
         props.handleClose();

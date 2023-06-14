@@ -9,6 +9,12 @@ const initialState = {
   dataProductById: {},
   isLoad: true,
   category: [],
+  filter: {
+    category_id: null,
+    ordered: 'ASC',
+    orderedBy: '',
+    search: '',
+  }
 };
 
 const productSlice = createSlice({
@@ -31,6 +37,9 @@ const productSlice = createSlice({
     setDataProductById: (initialState, action) => {
       initialState.dataProductById = action.payload;
     },
+    setFilterUpdated: (initialState, action) => {
+      initialState.filter = action.payload
+    }
   },
 });
 
@@ -136,7 +145,7 @@ export const postDataProduct = (input) => async (dispatch) => {
     console.log(response.data.data);
     // if (response.status === 201) {
       toast.success("Data Created!");
-      // dispatch(getDataProduct(input.currentPage));
+      dispatch(getDataProduct(input.currentPage, input.filter));
     // }
   } catch (error) {
     console.log(error);
@@ -144,7 +153,7 @@ export const postDataProduct = (input) => async (dispatch) => {
 };
 
 export const updateDataProduct =
-  (currentPage, id, product_name, price, stock, category_id, product_image) =>
+  (currentPage, id, product_name, price, stock, category_id, product_image,filter) =>
   async (dispatch) => {
     // toast.success(currentPage);
     try {
@@ -189,13 +198,13 @@ export const updateDataProduct =
       console.log(result);
       toast.success("Data updated!");
       dispatch(setDataProductById({}));
-      // dispatch(getDataProduct(currentPage));
+      dispatch(getDataProduct(currentPage,filter));
     } catch (error) {
       toast.error(error.message);
     }
   };
 
-export const deleteDataProduct = (id, currentPage) => async (dispatch) => {
+export const deleteDataProduct = (id, currentPage,filter) => async (dispatch) => {
   try {
     const token = localStorage.getItem("token")
   ? localStorage?.getItem("token")
@@ -210,7 +219,7 @@ export const deleteDataProduct = (id, currentPage) => async (dispatch) => {
     );
     if (result.status === 200) {
       toast.success("Data Deleted!");
-      // dispatch(getDataProduct(currentPage));
+      dispatch(getDataProduct(currentPage,filter));
     }
   } catch (error) {
     toast.error(error.message);
@@ -224,6 +233,7 @@ export const {
   setIsLoad,
   setCategory,
   setOrderMenu,
+  setFilterUpdated
 } = productSlice.actions;
 
 export default productSlice.reducer;

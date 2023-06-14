@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { getDataProduct, setDataProductById } from '../../Features/product/productSlice';
+import { getDataProduct, setDataProductById, setFilter } from '../../Features/product/productSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import Card from '../../Components/Card/Card';
 import { FilterProduct } from '../../Components/FilterProduct/FilterProduct';
@@ -21,7 +21,7 @@ export default function Admin() {
   const [pageParams, setPageParams] = useSearchParams();
 
   const dispatch = useDispatch();
-  const { dataProduct, pageCount, isLoad } = useSelector((state) => state.product);
+  const { dataProduct, pageCount, filter } = useSelector((state) => state.product);
 
   const { subTotal } = useSelector((state) => state.orderMenu);
 
@@ -29,12 +29,12 @@ export default function Admin() {
 
   // paginate
   const [page, setPage] = useState(1);
-  const [filter, setFilter] = useState({
-    category_id: null,
-    ordered: 'ASC',
-    orderedBy: '',
-    search: '',
-  });
+  // const [filter, setFilter] = useState({
+  //   category_id: null,
+  //   ordered: 'ASC',
+  //   orderedBy: '',
+  //   search: '',
+  // });
 
   const changeHandler = (event, value) => {
     setPageParams(`page=${value}`);
@@ -74,7 +74,7 @@ export default function Admin() {
   return (
     <div className="flex bg-[#f0f0f0]">
       <div className="w-full h-[100vh] p-9 flex flex-col justify-between">
-        <FilterProduct filter={filter} setFilter={setFilter} />
+        <FilterProduct filter={filter} setFilter={setFilterUpdated} />
         <Card
           data={dataProduct}
           currentPage={pageParams.get('page')}

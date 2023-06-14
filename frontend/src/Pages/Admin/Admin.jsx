@@ -4,6 +4,8 @@ import {
   deleteDataProduct,
   getDataProduct,
   setDataProductById,
+  setFilter,
+  setFilterUpdated,
 } from "../../Features/product/productSlice";
 import { useDispatch, useSelector } from "react-redux";
 import Card from "../../Components/Card/Card";
@@ -28,7 +30,7 @@ export default function Admin() {
   const [pageParams, setPageParams] = useSearchParams();
 
   const dispatch = useDispatch();
-  const { dataProduct, pageCount, isLoad } = useSelector(
+  const { dataProduct, pageCount, isLoad,filter } = useSelector(
     (state) => state.product
   );
 
@@ -36,12 +38,7 @@ export default function Admin() {
 
   // paginate
   const [page, setPage] = useState(1);
-  const [filter, setFilter] = useState({
-    category_id: null,
-    ordered: "ASC",
-    orderedBy: "",
-    search: "",
-  });
+
 
   const changeHandler = (event, value) => {
     setPageParams(`page=${value}`);
@@ -78,7 +75,7 @@ export default function Admin() {
     }
     dispatch(getDataProduct(pageParams.get("page"), filter));
     setPage(Number(pageParams.get("page")));
-    console.log("filterUpdate ==================");
+    // console.log("filterUpdate ==================");
   }, [pageParams, filter]);
 
   return (
@@ -90,7 +87,7 @@ export default function Admin() {
           </div>
         ) : (
           <>
-            <FilterProduct filter={filter} setFilter={setFilter} />
+            <FilterProduct filter={filter} setFilter={setFilterUpdated()} />
             <div className="flex justify-end">
               {/* <button className="p-2 bg-[#FF2351] text-white font-bold rounded-lg flex items-center mb-5 gap-1 text-[14px]">
                 <AddIcon />

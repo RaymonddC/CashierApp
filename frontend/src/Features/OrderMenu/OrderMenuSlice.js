@@ -3,6 +3,10 @@ import axios from "axios";
 import { toast } from "react-hot-toast";
 import { subTotal } from "../../helper/orderHelper";
 
+const token = localStorage.getItem("token")
+  ? localStorage?.getItem("token")
+  : "";
+
 const initialState = {
   orderMenu: [],
   subTotal: 0,
@@ -24,7 +28,12 @@ const orderMenuSlice = createSlice({
 export const getOrderMenuByIdUser = (id) => async (dispatch) => {
   try {
     let response = await axios.get(
-      `${process.env.REACT_APP_API_URL}/ordermenu/${id}`
+      `${process.env.REACT_APP_API_URL}/ordermenu/${id}`,
+      {
+        headers: {
+          Authorization: `bearer ${token}`,
+        },
+      }
     );
     dispatch(setOrderMenu(response.data.data));
     dispatch(setSubTotal(subTotal(response.data.data)));
@@ -42,12 +51,17 @@ export const postOrderMenu = (input) => async (dispatch) => {
         user_id: input.user_id,
         product_id: input.product_id,
         quantity: input.quantity,
+      },
+      {
+        headers: {
+          Authorization: `bearer ${token}`,
+        },
       }
     );
     console.log(response.data.data);
     if (response.status === 201) {
       toast.success("Data Created!");
-      dispatch(getOrderMenuByIdUser(2));
+      dispatch(getOrderMenuByIdUser(localStorage.getItem("userId")));
     }
     // console.log(input);
   } catch (error) {
@@ -62,12 +76,17 @@ export const incrementQty = (input) => async (dispatch) => {
       `${process.env.REACT_APP_API_URL}/ordermenu/${input.id}`,
       {
         quantity: newQuantity,
+      },
+      {
+        headers: {
+          Authorization: `bearer ${token}`,
+        },
       }
     );
     console.log(response.data.data);
     if (response.status === 200) {
       toast.success("Data Updated!");
-      dispatch(getOrderMenuByIdUser(2));
+      dispatch(getOrderMenuByIdUser(localStorage.getItem("userId")));
     }
     console.log(input.id);
     console.log(newQuantity);
@@ -85,17 +104,27 @@ export const decrementQty = (input) => async (dispatch) => {
         `${process.env.REACT_APP_API_URL}/ordermenu/${input.id}`,
         {
           quantity: newQuantity,
+        },
+        {
+          headers: {
+            Authorization: `bearer ${token}`,
+          },
         }
       );
     } else {
       response = await axios.delete(
-        `${process.env.REACT_APP_API_URL}/ordermenu/${input.id}`
+        `${process.env.REACT_APP_API_URL}/ordermenu/${input.id}`,
+        {
+          headers: {
+            Authorization: `bearer ${token}`,
+          },
+        }
       );
     }
     if (response.status === 200) {
       console.log(response.data.data);
       toast.success(response.data.message);
-      dispatch(getOrderMenuByIdUser(2));
+      dispatch(getOrderMenuByIdUser(localStorage.getItem("userId")));
     }
     console.log(input.id);
     console.log(newQuantity);
@@ -107,7 +136,12 @@ export const decrementQty = (input) => async (dispatch) => {
 export const deleteOrderMenu = (user_id) => async (dispatch) => {
   try {
     let response = await axios.delete(
-      `${process.env.REACT_APP_API_URL}/ordermenu/all/${user_id}`
+      `${process.env.REACT_APP_API_URL}/ordermenu/all/${user_id}`,
+      {
+        headers: {
+          Authorization: `bearer ${token}`,
+        },
+      }
     );
     if (response.status === 200) {
       toast.success("Order Transaction created!");

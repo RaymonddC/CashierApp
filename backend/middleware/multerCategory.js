@@ -1,8 +1,8 @@
-const multer = require('multer');
+const multer = require("multer");
 
-const fs = require('fs');
+const fs = require("fs");
 
-const defaultPath = 'public';
+const defaultPath = "public";
 
 const storage = multer.diskStorage({
   destination: async (req, file, cb) => {
@@ -13,22 +13,22 @@ const storage = multer.diskStorage({
         recursive: true,
       });
     }
-    if (file.fieldname === 'category_image') {
+    if (file.fieldname === "category_image") {
       cb(null, `${defaultPath}/${file.fieldname}`);
     } else {
-      cb(null, 'public');
+      cb(null, "public");
     }
   },
   filename: (req, file, cb) => {
-    cb(null, 'IMG' + Date.now() + '.' + file.mimetype.split('/')[1]);
+    cb(null, "IMG" + Date.now() + "." + file.mimetype.split("/")[1]);
   },
 });
 
 const fileFilter = (req, file, cb) => {
-  if (file.mimetype.split('/')[1] === 'png') {
+  if (file.mimetype.split("/")[1] === "png") {
     cb(null, true);
   } else {
-    cb(new Error('file not supported'));
+    cb(new Error("file not supported"));
   }
 };
 

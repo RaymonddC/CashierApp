@@ -115,7 +115,7 @@ export const Form = (props) => {
         productImage: dataProductById.product_image,
       });
     }
-    dispatch(getAllCategory());
+    dispatch(getAllCategory ());
   }, [dataProductById]);
 
   return (

@@ -28,7 +28,7 @@ const orderMenuSlice = createSlice({
 export const getOrderMenuByIdUser = (id) => async (dispatch) => {
   try {
     let response = await axios.get(
-      `${process.env.REACT_APP_API_URL}/ordermenu/${id}`,
+      `${process.env.REACT_APP_API_URL}/orders/${id}`,
       {
         headers: {
           Authorization: `bearer ${token}`,
@@ -46,7 +46,7 @@ export const getOrderMenuByIdUser = (id) => async (dispatch) => {
 export const postOrderMenu = (input) => async (dispatch) => {
   try {
     let response = await axios.post(
-      `${process.env.REACT_APP_API_URL}/ordermenu/`,
+      `${process.env.REACT_APP_API_URL}/orders/`,
       {
         user_id: input.user_id,
         product_id: input.product_id,
@@ -73,7 +73,7 @@ export const incrementQty = (input) => async (dispatch) => {
   try {
     let newQuantity = input.quantity + 1;
     let response = await axios.patch(
-      `${process.env.REACT_APP_API_URL}/ordermenu/${input.id}`,
+      `${process.env.REACT_APP_API_URL}/orders/${input.id}`,
       {
         quantity: newQuantity,
       },
@@ -101,7 +101,7 @@ export const decrementQty = (input) => async (dispatch) => {
     let response;
     if (newQuantity !== 0) {
       response = await axios.patch(
-        `${process.env.REACT_APP_API_URL}/ordermenu/${input.id}`,
+        `${process.env.REACT_APP_API_URL}/orders/${input.id}`,
         {
           quantity: newQuantity,
         },
@@ -113,7 +113,7 @@ export const decrementQty = (input) => async (dispatch) => {
       );
     } else {
       response = await axios.delete(
-        `${process.env.REACT_APP_API_URL}/ordermenu/${input.id}`,
+        `${process.env.REACT_APP_API_URL}/orders/${input.id}`,
         {
           headers: {
             Authorization: `bearer ${token}`,
@@ -136,7 +136,7 @@ export const decrementQty = (input) => async (dispatch) => {
 export const deleteOrderMenu = (user_id) => async (dispatch) => {
   try {
     let response = await axios.delete(
-      `${process.env.REACT_APP_API_URL}/ordermenu/all/${user_id}`,
+      `${process.env.REACT_APP_API_URL}/orders/all/${user_id}`,
       {
         headers: {
           Authorization: `bearer ${token}`,
@@ -145,7 +145,7 @@ export const deleteOrderMenu = (user_id) => async (dispatch) => {
     );
     if (response.status === 200) {
       toast.success("Order Transaction created!");
-      dispatch(getOrderMenuByIdUser(2));
+      dispatch(getOrderMenuByIdUser(localStorage.getItem("userId")));
     }
   } catch (error) {
     toast.error(error);

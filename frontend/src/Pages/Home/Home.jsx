@@ -65,9 +65,10 @@ export default function Admin() {
     if (pageParams.get('page') === null) {
       setPageParams(`page=1`);
     }
-    dispatch(getDataProduct(pageParams.get('page'), filter));
     setPage(Number(pageParams.get('page')));
+    dispatch(getDataProduct(pageParams.get('page'), filter));
     // console.log("filterUpdate ==================");
+    console.log("masuk hehe");
   }, [pageParams, filter]);
 
   return (

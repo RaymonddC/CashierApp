@@ -2,9 +2,6 @@ import { createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import { toast } from "react-hot-toast";
 
-const token = localStorage.getItem("token")
-  ? localStorage?.getItem("token")
-  : "";
 
 const initialState = {
   dataProduct: [],
@@ -39,6 +36,9 @@ const productSlice = createSlice({
 
 export const getDataProduct = (page, filter) => async (dispatch) => {
   try {
+    const token = localStorage.getItem("token")
+  ? localStorage?.getItem("token")
+  : "";
     let param = { page: page };
     if (filter.category_id) param["searchCategory"] = filter.category_id;
     if (filter.search) param["searchQuery"] = filter.search;
@@ -53,12 +53,11 @@ export const getDataProduct = (page, filter) => async (dispatch) => {
       `${process.env.REACT_APP_API_URL}/products`,
       {
         params: param,
-      },
-      {
         headers: {
           Authorization: `bearer ${token}`,
         },
-      }
+      },
+
     );
     if (response.status === 200) {
       dispatch(setIsLoad(false));
@@ -66,6 +65,7 @@ export const getDataProduct = (page, filter) => async (dispatch) => {
     dispatch(setDataProduct(response.data.data));
     dispatch(setPageCount(response.data.pagination.pageCount));
     console.log(response.data);
+    console.log(response.status);
   } catch (error) {
     console.error("error : " + error);
   }
@@ -73,6 +73,9 @@ export const getDataProduct = (page, filter) => async (dispatch) => {
 
 export const getAllCategory = () => async (dispatch) => {
   try {
+    const token = localStorage.getItem("token")
+  ? localStorage?.getItem("token")
+  : "";
     let response = await axios.get(
       `${process.env.REACT_APP_API_URL}/products/categories`,
       {
@@ -90,6 +93,9 @@ export const getAllCategory = () => async (dispatch) => {
 
 export const getDataProductById = (id) => async (dispatch) => {
   try {
+    const token = localStorage.getItem("token")
+  ? localStorage?.getItem("token")
+  : "";
     let response = await axios.get(
       `${process.env.REACT_APP_API_URL}/products/${id}`,
       {
@@ -108,6 +114,9 @@ export const getDataProductById = (id) => async (dispatch) => {
 export const postDataProduct = (input) => async (dispatch) => {
   console.log(input);
   try {
+    const token = localStorage.getItem("token")
+  ? localStorage?.getItem("token")
+  : "";
     let response = await axios.post(
       `${process.env.REACT_APP_API_URL}/products/`,
       {
@@ -125,10 +134,10 @@ export const postDataProduct = (input) => async (dispatch) => {
       }
     );
     console.log(response.data.data);
-    if (response.status === 201) {
+    // if (response.status === 201) {
       toast.success("Data Created!");
-      dispatch(getDataProduct(input.currentPage));
-    }
+      // dispatch(getDataProduct(input.currentPage));
+    // }
   } catch (error) {
     console.log(error);
   }
@@ -139,6 +148,9 @@ export const updateDataProduct =
   async (dispatch) => {
     // toast.success(currentPage);
     try {
+      const token = localStorage.getItem("token")
+  ? localStorage?.getItem("token")
+  : "";
       let result;
       if (!product_image) {
         result = await axios.put(
@@ -168,6 +180,7 @@ export const updateDataProduct =
           },
           {
             headers: {
+              Authorization: `bearer ${token}`,
               "Content-Type": "multipart/form-data",
             },
           }
@@ -176,7 +189,7 @@ export const updateDataProduct =
       console.log(result);
       toast.success("Data updated!");
       dispatch(setDataProductById({}));
-      dispatch(getDataProduct(currentPage));
+      // dispatch(getDataProduct(currentPage));
     } catch (error) {
       toast.error(error.message);
     }
@@ -184,6 +197,9 @@ export const updateDataProduct =
 
 export const deleteDataProduct = (id, currentPage) => async (dispatch) => {
   try {
+    const token = localStorage.getItem("token")
+  ? localStorage?.getItem("token")
+  : "";
     let result = await axios.delete(
       `${process.env.REACT_APP_API_URL}/products/${id}`,
       {
@@ -194,7 +210,7 @@ export const deleteDataProduct = (id, currentPage) => async (dispatch) => {
     );
     if (result.status === 200) {
       toast.success("Data Deleted!");
-      dispatch(getDataProduct(currentPage));
+      // dispatch(getDataProduct(currentPage));
     }
   } catch (error) {
     toast.error(error.message);

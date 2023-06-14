@@ -1,20 +1,20 @@
-import React, { useEffect, useState } from "react";
-import LogoutIcon from "@mui/icons-material/Logout";
-import HomeIcon from "@mui/icons-material/Home";
-import DashboardIcon from "@mui/icons-material/Dashboard";
-import AdminPanelSettingsIcon from "@mui/icons-material/AdminPanelSettings";
-import { useDispatch, useSelector } from "react-redux";
-import { logoutAsync } from "../../Features/User/UserSlice";
-import "./Sidebar.css";
-import LogoutRoundedIcon from "@mui/icons-material/LogoutRounded";
-import MenuOpenRoundedIcon from "@mui/icons-material/MenuOpenRounded";
-import MenuRoundedIcon from "@mui/icons-material/MenuRounded";
-import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
-import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
-import CategoryOutlinedIcon from "@mui/icons-material/CategoryOutlined";
-import GroupAddOutlinedIcon from "@mui/icons-material/GroupAddOutlined";
-import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined";
-import { Link, Navigate } from "react-router-dom";
+import React, { useEffect, useState } from 'react';
+import LogoutIcon from '@mui/icons-material/Logout';
+import HomeIcon from '@mui/icons-material/Home';
+import DashboardIcon from '@mui/icons-material/Dashboard';
+import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
+import { useDispatch, useSelector } from 'react-redux';
+import { logoutAsync } from '../../../Features/User/UserSlice';
+import './Sidebar.css';
+import LogoutRoundedIcon from '@mui/icons-material/LogoutRounded';
+import MenuOpenRoundedIcon from '@mui/icons-material/MenuOpenRounded';
+import MenuRoundedIcon from '@mui/icons-material/MenuRounded';
+import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
+import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
+import CategoryOutlinedIcon from '@mui/icons-material/CategoryOutlined';
+import GroupAddOutlinedIcon from '@mui/icons-material/GroupAddOutlined';
+import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
+import { Link, Navigate } from 'react-router-dom';
 
 export const Sidebar = () => {
   let dispatch = useDispatch();
@@ -24,9 +24,7 @@ export const Sidebar = () => {
   return (
     <div
       className={` shrink-0 bg-white/95 lg:bg-white/100 sidebar   overflow-hidden ease-in-out duration-150 flex flex-col justify-between md:min-h-[100vh] rounded-r-[8px] ${
-        openMenu
-          ? "  w-[75%] lg:w-[240px] min-h-[100%]"
-          : "w-[50px] h-[50px] pt-[8px] flex-row  md:w-[80px] "
+        openMenu ? 'w-[75%] lg:w-[240px] min-h-[100%]' : 'w-[50px] h-[50px] pt-[8px] flex-row  md:w-[80px] '
       } `}
     >
       <div className="button  h-[10vh] w-[100%] z-50 flex justify-center">
@@ -41,50 +39,45 @@ export const Sidebar = () => {
       </div>
       <div className="menus text-[#8491A5] min-h-[70vh]">
         {/* <p>search</p> */}
-        <div>
-          <Link to={"/admin"} className="cardIconSidebar">
+        <div className={`adminHome ${user?.role_id !== 1 ? 'hidden' : ''}`}>
+          <Link to={'/admin'} className="cardIconSidebar">
             <HomeOutlinedIcon />
-            <p className={`${openMenu ? "" : "invisible"}`}>Dashboard</p>
+            <p className={`${openMenu ? '' : 'invisible'}`}>Dashboard</p>
           </Link>
         </div>
-        <div>
-          <Link to={"/"} className="cardIconSidebar">
+        <div className={`cashierHome`}>
+          <Link to={'/'} className="cardIconSidebar">
             <ShoppingCartOutlinedIcon />
-            <p className={`${openMenu ? "" : "invisible"}`}>Order</p>
+            <p className={`${openMenu ? '' : 'invisible'}`}>Order</p>
           </Link>
         </div>
-        <div>
-          <Link to={"/categories"} className="cardIconSidebar">
+        <div className={`categories ${user?.role_id !== 1 ? 'hidden' : ''}`}>
+          <Link to={'/categories'} className="cardIconSidebar">
             <CategoryOutlinedIcon />
-            <p className={`${openMenu ? "" : "invisible"}`}>Category</p>
+            <p className={`${openMenu ? '' : 'invisible'}`}>Category</p>
           </Link>
         </div>
-        <div>
-          <Link to={"/cashiers"} className="cardIconSidebar">
+        <div className={`manageCashier ${user?.role_id !== 1 ? 'hidden' : ''}`}>
+          <Link to={'/cashiers'} className="cardIconSidebar">
             <GroupAddOutlinedIcon />
-            <p className={`${openMenu ? "" : "invisible"}`}>Cashier</p>
+            <p className={`${openMenu ? '' : 'invisible'}`}>Cashier</p>
           </Link>
         </div>
-        <div>
+        <div className="profileSidebar hidden">
           <Link className="cardIconSidebar">
             <PersonOutlineOutlinedIcon />
-            <p className={`${openMenu ? "" : "invisible"}`}>Profile</p>
+            <p className={`${openMenu ? '' : 'invisible'}`}>Profile</p>
           </Link>
         </div>
       </div>
       <div className="profile min-w-[100%]">
         <div className="avatar w-[40px] h-[40px] bg-[#FFCA40] rounded-full">
-          <img
-            src={`http://localhost:5000/product_image/IMG1685974633294.png`}
-            alt=""
-          />
+          <img src={`http://localhost:5000/product_image/IMG1685974633294.png`} alt="" />
         </div>
-        <div className={`detail ${openMenu ? "" : "invisible"}`}>
+        <div className={`detail ${openMenu ? '' : 'invisible'}`}>
           {/* {console.log(user)} */}
-          <p className="username">{user?.username || "Please Login"}</p>
-          <p className="email">
-            {user?.username ? `${user?.username}@gmail.com` : ""}
-          </p>
+          <p className="username">{user?.username || 'Please Login'}</p>
+          <p className="email">{user?.username ? `${user?.username}@gmail.com` : ''}</p>
         </div>
         {user ? (
           <div
@@ -96,7 +89,7 @@ export const Sidebar = () => {
             <LogoutRoundedIcon />
           </div>
         ) : (
-          ""
+          ''
         )}
       </div>
     </div>

@@ -1,14 +1,12 @@
-import { createSlice } from "@reduxjs/toolkit";
-import axios from "axios";
-import toast from "react-hot-toast";
+import { createSlice } from '@reduxjs/toolkit';
+import axios from 'axios';
+import toast from 'react-hot-toast';
 
 // import { auth } from './../../firebase';
 // import { GoogleAuthProvider, signInWithPopup, onAuthStateChanged } from 'firebase/auth';
 // const provider = new GoogleAuthProvider();
 
-const token = localStorage.getItem("token")
-  ? localStorage?.getItem("token")
-  : "";
+const token = localStorage.getItem('token') ? localStorage?.getItem('token') : '';
 
 const initialState = {
   cashierList: [],
@@ -16,7 +14,7 @@ const initialState = {
 };
 
 export const UserSlice = createSlice({
-  name: "user",
+  name: 'user',
   initialState,
   reducers: {
     onGetData: (initialState, action) => {
@@ -33,15 +31,12 @@ export const UserSlice = createSlice({
 
 export const checkCredentialAsync = (email, password) => async (dispatch) => {
   try {
-    console.log("awd");
-    console.log(process.env.REACT_APP_API_URL, "test");
-    let response = await axios.post(
-      `${process.env.REACT_APP_API_URL}/auth/login`,
-      {
-        usernameOrEmail: email,
-        password: password,
-      }
-    );
+    console.log('awd');
+    console.log(process.env.REACT_APP_API_URL, 'test');
+    let response = await axios.post(`${process.env.REACT_APP_API_URL}/auth/login`, {
+      usernameOrEmail: email,
+      password: password,
+    });
     console.log(response);
 
     return response.data;
@@ -60,22 +55,23 @@ export const onLoginAsync = (values) => async (dispatch) => {
     let result = await dispatch(checkCredentialAsync(email, password));
     console.log(values);
 
-    if (result.length === 0) throw { message: "Account Not Found" };
+    if (result.length === 0) throw { message: 'Account Not Found' };
 
-    localStorage.removeItem("token");
+    localStorage.removeItem('token');
 
     console.log(result);
-    localStorage.setItem("token", result.token);
+    localStorage.setItem('token', result.token);
+    localStorage.setItem('auth', JSON.stringify({ token: result.token, authorization: result.data.Role.type }));
 
-    localStorage.setItem("userId", result.data.id);
+    localStorage.setItem('userId', result.data.id);
 
     // console.log(result)
 
     dispatch(onSaveUser(result.data));
 
-    toast.success("Login Success!");
+    toast.success('Login Success!');
   } catch (error) {
-    console.log("error");
+    console.log('error');
     alert(error.message);
     toast.error(error.message);
   } finally {
@@ -85,16 +81,13 @@ export const onLoginAsync = (values) => async (dispatch) => {
 
 export const getCashiersAsync = () => async (dispatch) => {
   try {
-    let response = await axios.get(
-      `${process.env.REACT_APP_API_URL}/users/getCashiers`,
-      {
-        headers: {
-          Authorization: `bearer ${token}`,
-          "Content-Type": "multipart/form-data",
-        },
-      }
-    );
-    console.log("awdaw", response);
+    let response = await axios.get(`${process.env.REACT_APP_API_URL}/users/getCashiers`, {
+      headers: {
+        Authorization: `bearer ${token}`,
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+    console.log('awdaw', response);
     dispatch(onSaveData(response.data.data));
   } catch (error) {}
 };
@@ -104,17 +97,14 @@ export const onRegister = (props) => async (dispatch) => {
     const { username, password, userImage } = props;
     if (!username) return toast.error(`Fill All Data!`);
 
-    const response = await axios.post(
-      `${process.env.REACT_APP_API_URL}/auth/register`,
-      {
-        username: username,
-        email: username,
-        password: "password",
-        confirmPassword: "password",
-      }
-    );
+    const response = await axios.post(`${process.env.REACT_APP_API_URL}/auth/register`, {
+      username: username,
+      email: username,
+      password: 'password',
+      confirmPassword: 'password',
+    });
 
-    toast.success("Register Success!");
+    toast.success('Register Success!');
     dispatch(getCashiersAsync());
   } catch (error) {
     console.log(error);
@@ -136,13 +126,13 @@ export const updateUser = (data) => async (dispatch) => {
       {
         headers: {
           Authorization: `bearer ${token}`,
-          "Content-Type": "multipart/form-data",
+          'Content-Type': 'multipart/form-data',
         },
       }
     );
-    toast.success("User Updated");
+    toast.success('User Updated');
     dispatch(getCashiersAsync());
-    console.log("done");
+    console.log('done');
   } catch (error) {
     console.log(error);
     toast.error(error.message);
@@ -152,18 +142,15 @@ export const updateUser = (data) => async (dispatch) => {
 export const deleteUser = (value) => async (dispatch) => {
   try {
     const { id } = value;
-    console.log("testos");
-    let result = await axios.delete(
-      `${process.env.REACT_APP_API_URL}/users/${id}`,
-      {
-        headers: {
-          Authorization: `bearer ${token}`,
-          "Content-Type": "multipart/form-data",
-        },
-      }
-    );
+    console.log('testos');
+    let result = await axios.delete(`${process.env.REACT_APP_API_URL}/users/${id}`, {
+      headers: {
+        Authorization: `bearer ${token}`,
+        'Content-Type': 'multipart/form-data',
+      },
+    });
     if (result.status === 200) {
-      toast.success("Data Deleted!");
+      toast.success('Data Deleted!');
       dispatch(getCashiersAsync());
     }
   } catch (error) {
@@ -186,32 +173,36 @@ export const deleteUser = (value) => async (dispatch) => {
 
 export const keepLoginAsync = () => async (dispatch) => {
   try {
-    let token = localStorage.getItem("token");
+    let token = localStorage.getItem('token');
     // if (token == null) throw { message: 'No User' };
-    let response = await axios.get(
-      `${process.env.REACT_APP_API_URL}/auth/getUser`,
-      {
+    if (token) {
+      let response = await axios.get(`${process.env.REACT_APP_API_URL}/auth/getUser`, {
         headers: {
           Authorization: `bearer ${token}`,
         },
-      }
-    );
-    dispatch(onSaveUser(response.data.data));
-    console.log(response.data.data);
+      });
+      dispatch(onSaveUser(response.data.data));
+      console.log(response.data.data);
+    }
   } catch (error) {}
 };
 
 export const logoutAsync = () => async (dispatch) => {
   try {
-    let id = localStorage.getItem("userId");
-    let token = localStorage.getItem("token");
-    console.log("function");
-    if (id && token) {
-      localStorage.clear("userId");
-      localStorage.clear("token");
+    let id = localStorage.getItem('userId');
+    let token = localStorage.getItem('token');
+    let auth = localStorage.getItem('auth');
+    if (id && token && auth) {
+      localStorage.clear('userId');
+      localStorage.clear('token');
+      localStorage.clear('auth');
+      console.log('function', id, token, auth);
       dispatch(onSaveUser(null));
     }
-    toast.success("Logout Success!");
+    console.log(localStorage.getItem('auth'), 'logout');
+    console.log('testlogout');
+    toast.success('Logout Success!');
+    console.log('toast');
   } catch (error) {}
 };
 

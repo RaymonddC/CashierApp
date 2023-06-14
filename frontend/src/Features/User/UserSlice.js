@@ -228,27 +228,26 @@ export const logoutAsync = () => async (dispatch) => {
 //   }
 // };
 
-// export const onChangePass = (data) => async (dispatch) => {
-//   try {
-//     const { email, password, confirmPassword } = data;
-//     if (password != confirmPassword) return toast.error(`Password Doesnt Match!`);
+export const onChangePass = (data) => async (dispatch) => {
+  try {
+    return;
+    const { email, password, confirmPassword } = data;
+    if (password != confirmPassword) return toast.error(`Password Doesnt Match!`);
 
-//     dispatch(toggleBtn());
+    const response = await axios.post(`${process.env.REACT_APP_API_URL}/users/changePassword`, {
+      email: email,
+      password: password,
+      confirmPassword: confirmPassword,
+    });
 
-//     const response = await axios.post(`${UrlApi}/users/changePassword`, {
-//       email: email,
-//       password: password,
-//       confirmPassword: confirmPassword,
-//     });
-
-//     if (response.data.success) return toast.success('Password Change');
-//   } catch (error) {
-//     console.log(error);
-//     toast.error(JSON.stringify(error.response.data.message));
-//   } finally {
-//     dispatch(toggleBtn());
-//   }
-// };
+    if (response.data.success) return toast.success('Password Change');
+  } catch (error) {
+    console.log(error);
+    toast.error(JSON.stringify(error.response.data.message));
+  } finally {
+    dispatch(toggleBtn());
+  }
+};
 
 // export const onLoginWithGoogle = () => async (dispatch) => {
 //   try {

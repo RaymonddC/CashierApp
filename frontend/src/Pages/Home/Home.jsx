@@ -1,31 +1,27 @@
-import { useEffect, useState } from "react";
-import {
-  getDataProduct,
-  setDataProductById,
-} from "../../Features/product/productSlice";
-import { useDispatch, useSelector } from "react-redux";
-import Card from "../../Components/Card/Card";
+import { useEffect, useState } from 'react';
+import { getDataProduct, setDataProductById } from '../../Features/product/productSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import Card from '../../Components/Card/Card';
+import { FilterProduct } from '../../Components/FilterProduct/FilterProduct';
 
 // paginate
-import { Pagination } from "@mui/material";
+import { Pagination } from '@mui/material';
 // Loader
-import { Navigate, useSearchParams } from "react-router-dom";
+import { Navigate, useSearchParams } from 'react-router-dom';
 // Modal
-import { convertIdr } from "../../helper/convertCurrency";
-import OrderMenuCard from "../../Components/orderMenuCard/orderMenuCard";
-import { deleteOrderMenu } from "../../Features/OrderMenu/OrderMenuSlice";
-import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
+import { convertIdr } from '../../helper/convertCurrency';
+import OrderMenuCard from '../../Components/orderMenuCard/orderMenuCard';
+import { deleteOrderMenu } from '../../Features/OrderMenu/OrderMenuSlice';
+import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 
-import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
-import { createTransaction } from "../../Features/Transaction/transactionSlice";
+import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
+import { createTransaction } from '../../Features/Transaction/transactionSlice';
 
 export default function Admin() {
   const [pageParams, setPageParams] = useSearchParams();
 
   const dispatch = useDispatch();
-  const { dataProduct, pageCount, isLoad } = useSelector(
-    (state) => state.product
-  );
+  const { dataProduct, pageCount, isLoad } = useSelector((state) => state.product);
 
   const { subTotal } = useSelector((state) => state.orderMenu);
 
@@ -35,16 +31,16 @@ export default function Admin() {
   const [page, setPage] = useState(1);
   const [filter, setFilter] = useState({
     category_id: null,
-    ordered: "ASC",
-    orderedBy: "",
-    search: "",
+    ordered: 'ASC',
+    orderedBy: '',
+    search: '',
   });
 
   const changeHandler = (event, value) => {
     setPageParams(`page=${value}`);
   };
 
-  if (Number(pageParams.get("page")) > pageCount && pageCount !== 0) {
+  if (Number(pageParams.get('page')) > pageCount && pageCount !== 0) {
     setPageParams(`page=1`);
   }
 
@@ -62,36 +58,32 @@ export default function Admin() {
 
   const submitHandler = () => {
     dispatch(createTransaction(new Date(), subTotal));
-    dispatch(deleteOrderMenu(localStorage.getItem("userId")));
+    dispatch(deleteOrderMenu(localStorage.getItem('userId')));
   };
 
   useEffect(() => {
-    if (pageParams.get("page") === null) {
+    if (pageParams.get('page') === null) {
       setPageParams(`page=1`);
     }
-    dispatch(getDataProduct(pageParams.get("page"), filter));
-    setPage(Number(pageParams.get("page")));
+    dispatch(getDataProduct(pageParams.get('page'), filter));
+    setPage(Number(pageParams.get('page')));
     // console.log("filterUpdate ==================");
   }, [pageParams, filter]);
 
   return (
     <div className="flex bg-[#f0f0f0]">
       <div className="w-full h-[100vh] p-9 flex flex-col justify-between">
-        {/* <FilterProduct filter={filter} setFilter={setFilter} /> */}
+        <FilterProduct filter={filter} setFilter={setFilter} />
         <Card
           data={dataProduct}
-          currentPage={pageParams.get("page")}
+          currentPage={pageParams.get('page')}
           // handleOpen={handleOpen}
         />
         <div className="flex justify-center">
           <Pagination count={pageCount} page={page} onChange={changeHandler} />
         </div>
       </div>
-      <div
-        className={`bg-white p-9 flex flex-col justify-between box-border absolute h-[100vh] right-0 ${
-          openOrder ? "" : "hidden"
-        }`}
-      >
+      <div className={`bg-white p-9 flex flex-col justify-between box-border absolute h-[100vh] right-0 ${openOrder ? '' : 'hidden'} `}>
         <div className="headerOrder flex justify-between align-middle items-center">
           <h1 className="text-[24px] font-bold">Order Menu</h1>
           <CloseRoundedIcon onClick={() => setOpenOrder(false)} />
@@ -102,17 +94,14 @@ export default function Admin() {
             <p className="font-bold">Sub Total</p>
             <p className="font-bold">{convertIdr(subTotal)}</p>
           </div>
-          <button
-            className="bg-[#ffca40] py-5 px-6 w-[338px] rounded-lg font-bold"
-            onClick={submitHandler}
-          >
+          <button className="bg-[#ffca40] py-5 px-6 w-[338px] rounded-lg font-bold" onClick={submitHandler}>
             ORDER NOW
           </button>
         </div>
       </div>
       <div
         className={`iconOrder absolute right-[5%] bottom-[5%] rounded-full h-[50px] w-[50px] drop-shadow-lg flex justify-center items-center bg-white
-       ${openOrder ? "hidden" : ""}
+       ${openOrder ? 'hidden' : ''}
       `}
         onClick={() => setOpenOrder(true)}
       >

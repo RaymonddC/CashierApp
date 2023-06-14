@@ -8,7 +8,7 @@ import Home from "./Pages/Home/Home";
 import Admin from "./Pages/Admin/Admin";
 import { Category } from "./Pages/Admin/Category/Category";
 import { useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { keepLoginAsync } from "./Features/User/UserSlice";
 import { CashierManagement } from "./Pages/Admin/CashierManagement/CashierManagement";
 import { Sidebar } from "./Components/Sidebar/Sidebar";
@@ -19,6 +19,10 @@ function App() {
   useEffect(() => {
     dispatch(keepLoginAsync());
   }, []);
+
+  // const {user} = useSelector((state) => state.)
+
+  // console.log(user);
 
   return (
     <div className="App">

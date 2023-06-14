@@ -76,7 +76,7 @@ export const CashierManagement = () => {
     console.log(columns);
   }, []);
   return (
-    <div className="content px-[30px] w-full  scrollbar-hide  md:scrollbar-default">
+    <div className="content px-[30px] w-full  scrollbar-hide  md:scrollbar-default md:pl-[120px]">
       <div className="py-[50px]"></div>
       <div className="header flex justify-between w-full  py-[10px] flex-col md:flex-row">
         <p className="font-bold text-[50px]">Cashier List</p>

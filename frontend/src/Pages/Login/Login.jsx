@@ -18,10 +18,14 @@ import LocationOnRoundedIcon from '@mui/icons-material/LocationOnRounded';
 
 export const Login = () => {
   const user = useSelector((state) => state?.user?.user);
+  // useSelector((state) => state?.user?.user);
   const [showPass, setShowPass] = useState(false);
   const dispatch = useDispatch();
 
-  if (user) return <Navigate to={'/admin'} />;
+  console.log(user, 'login');
+  if (user?.Role.type == 'Admin') return <Navigate to={'/admin'} />;
+  else if (user?.Role.type == 'Cashier') return <Navigate to={'/'} />;
+
   return (
     <div className="flex h-[100vh]">
       <div className="image flex-1 bg-cover bg-[url('https://images.unsplash.com/photo-1578474846511-04ba529f0b88?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1974&q=80')] hidden md:block">
@@ -40,13 +44,13 @@ export const Login = () => {
             }}
           />
           <CardContent sx={{ justifyContent: 'flex-end' }}>
-            <p className="text-white">Restaurant anjing</p>
+            {/* <p className="text-white">Restaurant anjing</p>
             <Typography level="h2" fontSize="lg" textColor="#fff" mb={1}>
               Yosemite National Park
             </Typography>
             <Typography startDecorator={<LocationOnRoundedIcon />} textColor="neutral.300">
               California, USA
-            </Typography>
+            </Typography> */}
           </CardContent>
         </Card>
       </div>

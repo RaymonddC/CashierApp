@@ -61,6 +61,7 @@ export const onLoginAsync = (values) => async (dispatch) => {
 
     console.log(result);
     localStorage.setItem('token', result.token);
+    localStorage.setItem('auth', JSON.stringify({ token: result.token, authorization: result.data.Role.type }));
 
     localStorage.setItem('userId', result.data.id);
 
@@ -174,13 +175,15 @@ export const keepLoginAsync = () => async (dispatch) => {
   try {
     let token = localStorage.getItem('token');
     // if (token == null) throw { message: 'No User' };
-    let response = await axios.get(`${process.env.REACT_APP_API_URL}/auth/getUser`, {
-      headers: {
-        Authorization: `bearer ${token}`,
-      },
-    });
-    dispatch(onSaveUser(response.data.data));
-    console.log(response.data.data);
+    if (token) {
+      let response = await axios.get(`${process.env.REACT_APP_API_URL}/auth/getUser`, {
+        headers: {
+          Authorization: `bearer ${token}`,
+        },
+      });
+      dispatch(onSaveUser(response.data.data));
+      console.log(response.data.data);
+    }
   } catch (error) {}
 };
 
@@ -188,13 +191,18 @@ export const logoutAsync = () => async (dispatch) => {
   try {
     let id = localStorage.getItem('userId');
     let token = localStorage.getItem('token');
-    console.log('function');
-    if (id && token) {
+    let auth = localStorage.getItem('auth');
+    if (id && token && auth) {
       localStorage.clear('userId');
       localStorage.clear('token');
+      localStorage.clear('auth');
+      console.log('function', id, token, auth);
       dispatch(onSaveUser(null));
     }
+    console.log(localStorage.getItem('auth'), 'logout');
+    console.log('testlogout');
     toast.success('Logout Success!');
+    console.log('toast');
   } catch (error) {}
 };
 

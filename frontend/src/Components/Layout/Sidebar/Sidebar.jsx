@@ -14,6 +14,7 @@ import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import CategoryOutlinedIcon from '@mui/icons-material/CategoryOutlined';
 import GroupAddOutlinedIcon from '@mui/icons-material/GroupAddOutlined';
 import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
+import ShowChartRoundedIcon from '@mui/icons-material/ShowChartRounded';
 import { Link, Navigate } from 'react-router-dom';
 
 export const Sidebar = () => {
@@ -43,6 +44,12 @@ export const Sidebar = () => {
           <Link to={'/admin'} className="cardIconSidebar">
             <HomeOutlinedIcon />
             <p className={`${openMenu ? '' : 'invisible'}`}>Dashboard</p>
+          </Link>
+        </div>
+        <div className={`graph ${user?.role_id !== 1 ? 'hidden' : ''}`}>
+          <Link to={'/graph'} className="cardIconSidebar">
+            <ShowChartRoundedIcon />
+            <p className={`${openMenu ? '' : 'invisible'}`}>Sales</p>
           </Link>
         </div>
         <div className={`cashierHome`}>

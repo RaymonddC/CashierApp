@@ -15,6 +15,7 @@ import { deleteOrderMenu } from '../../Features/OrderMenu/OrderMenuSlice';
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
+import { createTransaction } from '../../Features/Transaction/transactionSlice';
 
 export default function Admin() {
   const [pageParams, setPageParams] = useSearchParams();
@@ -43,20 +44,6 @@ export default function Admin() {
     setPageParams(`page=1`);
   }
 
-  // modal
-  const style = {
-    borderRadius: 2,
-    position: 'absolute',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-    width: 400,
-    bgcolor: 'background.paper',
-    border: '2px solid #000',
-    boxShadow: 24,
-    p: 4,
-  };
-
   const [openOrder, setOpenOrder] = useState(true);
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
@@ -68,6 +55,11 @@ export default function Admin() {
   // console.log(window.location.pathname);
 
   // console.log(dataProduct[0].product_image);
+
+  const submitHandler = () => {
+    dispatch(createTransaction(new Date(), subTotal));
+    dispatch(deleteOrderMenu(localStorage.getItem('userId')));
+  };
 
   useEffect(() => {
     if (pageParams.get('page') === null) {
@@ -102,7 +94,7 @@ export default function Admin() {
             <p className="font-bold">Sub Total</p>
             <p className="font-bold">{convertIdr(subTotal)}</p>
           </div>
-          <button className="bg-[#ffca40] py-5 px-6 w-[338px] rounded-lg font-bold" onClick={() => dispatch(deleteOrderMenu(localStorage.getItem('userId')))}>
+          <button className="bg-[#ffca40] py-5 px-6 w-[338px] rounded-lg font-bold" onClick={submitHandler}>
             ORDER NOW
           </button>
         </div>

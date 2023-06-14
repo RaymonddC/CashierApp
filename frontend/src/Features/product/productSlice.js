@@ -2,6 +2,10 @@ import { createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import { toast } from "react-hot-toast";
 
+const token = localStorage.getItem("token")
+  ? localStorage?.getItem("token")
+  : "";
+
 const initialState = {
   dataProduct: [],
   pageCount: 0,
@@ -49,6 +53,11 @@ export const getDataProduct = (page, filter) => async (dispatch) => {
       `${process.env.REACT_APP_API_URL}/products`,
       {
         params: param,
+      },
+      {
+        headers: {
+          Authorization: `bearer ${token}`,
+        },
       }
     );
     if (response.status === 200) {
@@ -65,7 +74,12 @@ export const getDataProduct = (page, filter) => async (dispatch) => {
 export const getAllCategory = () => async (dispatch) => {
   try {
     let response = await axios.get(
-      `${process.env.REACT_APP_API_URL}/products/categories`
+      `${process.env.REACT_APP_API_URL}/products/categories`,
+      {
+        headers: {
+          Authorization: `bearer ${token}`,
+        },
+      }
     );
     dispatch(setCategory(response.data.data));
     // console.log(response);
@@ -77,7 +91,12 @@ export const getAllCategory = () => async (dispatch) => {
 export const getDataProductById = (id) => async (dispatch) => {
   try {
     let response = await axios.get(
-      `${process.env.REACT_APP_API_URL}/products/${id}`
+      `${process.env.REACT_APP_API_URL}/products/${id}`,
+      {
+        headers: {
+          Authorization: `bearer ${token}`,
+        },
+      }
     );
     dispatch(setDataProductById(response.data.data));
     // console.log(response);
@@ -100,6 +119,7 @@ export const postDataProduct = (input) => async (dispatch) => {
       },
       {
         headers: {
+          Authorization: `bearer ${token}`,
           "Content-Type": "multipart/form-data",
         },
       }
@@ -131,6 +151,7 @@ export const updateDataProduct =
           },
           {
             headers: {
+              Authorization: `bearer ${token}`,
               "Content-Type": "multipart/form-data",
             },
           }
@@ -164,7 +185,12 @@ export const updateDataProduct =
 export const deleteDataProduct = (id, currentPage) => async (dispatch) => {
   try {
     let result = await axios.delete(
-      `${process.env.REACT_APP_API_URL}/products/${id}`
+      `${process.env.REACT_APP_API_URL}/products/${id}`,
+      {
+        headers: {
+          Authorization: `bearer ${token}`,
+        },
+      }
     );
     if (result.status === 200) {
       toast.success("Data Deleted!");

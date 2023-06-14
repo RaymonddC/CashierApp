@@ -90,7 +90,7 @@ function App() {
       ),
     },
     {
-      path: '/dashboard',
+      path: '/graph',
       forceRefresh: true,
       element: (
         <Layout setAuthStorage={setAuthStorage}>

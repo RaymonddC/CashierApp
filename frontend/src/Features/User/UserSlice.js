@@ -72,7 +72,6 @@ export const onLoginAsync = (values) => async (dispatch) => {
     toast.success('Login Success!');
   } catch (error) {
     console.log('error');
-    alert(error.message);
     toast.error(error.message);
   } finally {
     // dispatch(toggleBtn());

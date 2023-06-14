@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { getDataProduct, setDataProductById } from '../../Features/product/productSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import Card from '../../Components/Card/Card';
+import { FilterProduct } from '../../Components/FilterProduct/FilterProduct';
 
 // paginate
 import { Pagination } from '@mui/material';
@@ -80,7 +81,7 @@ export default function Admin() {
   return (
     <div className="flex bg-[#f0f0f0]">
       <div className="w-full h-[100vh] p-9 flex flex-col justify-between">
-        {/* <FilterProduct filter={filter} setFilter={setFilter} /> */}
+        <FilterProduct filter={filter} setFilter={setFilter} />
         <Card
           data={dataProduct}
           currentPage={pageParams.get('page')}
@@ -90,7 +91,7 @@ export default function Admin() {
           <Pagination count={pageCount} page={page} onChange={changeHandler} />
         </div>
       </div>
-      <div className={`bg-white p-9 flex flex-col justify-between box-border absolute h-[100vh] right-0 ${openOrder ? '' : 'hidden'}`}>
+      <div className={`bg-white p-9 flex flex-col justify-between box-border absolute h-[100vh] right-0 ${openOrder ? '' : 'hidden'} `}>
         <div className="headerOrder flex justify-between align-middle items-center">
           <h1 className="text-[24px] font-bold">Order Menu</h1>
           <CloseRoundedIcon onClick={() => setOpenOrder(false)} />

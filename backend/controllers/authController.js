@@ -108,7 +108,7 @@ const userLogin = async (req, res) => {
 
     let result = await getUser(usernameOrEmail, usernameOrEmail);
 
-    if (!result) throw { message: 'account not found', code: 400 };
+    if (!result) throw { message: 'Invalid Credentials', code: 400 };
     console.log(usernameOrEmail, password, result);
 
     const isUserExists = await bcrypt.compare(password, result.password);

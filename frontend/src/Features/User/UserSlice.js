@@ -36,7 +36,7 @@ export const checkCredentialAsync = (email, password) => async (dispatch) => {
     console.log("awd");
     console.log(process.env.REACT_APP_API_URL, "test");
     let response = await axios.post(
-      `${process.env.REACT_APP_API_URL}/users/login`,
+      `${process.env.REACT_APP_API_URL}/auth/login`,
       {
         usernameOrEmail: email,
         password: password,
@@ -105,7 +105,7 @@ export const onRegister = (props) => async (dispatch) => {
     if (!username) return toast.error(`Fill All Data!`);
 
     const response = await axios.post(
-      `${process.env.REACT_APP_API_URL}/users/register`,
+      `${process.env.REACT_APP_API_URL}/auth/register`,
       {
         username: username,
         email: username,
@@ -189,7 +189,7 @@ export const keepLoginAsync = () => async (dispatch) => {
     let token = localStorage.getItem("token");
     // if (token == null) throw { message: 'No User' };
     let response = await axios.get(
-      `${process.env.REACT_APP_API_URL}/users/getUser`,
+      `${process.env.REACT_APP_API_URL}/auth/getUser`,
       {
         headers: {
           Authorization: `bearer ${token}`,

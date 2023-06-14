@@ -23,7 +23,7 @@ export const Sidebar = () => {
 
   return (
     <div
-      className={` shrink-0 bg-white/95 lg:bg-white/100 sidebar   overflow-hidden ease-in-out duration-150 flex flex-col justify-between md:min-h-[100vh] ${
+      className={` shrink-0 bg-white/95 lg:bg-white/100 sidebar   overflow-hidden ease-in-out duration-150 flex flex-col justify-between md:min-h-[100vh] rounded-r-[8px] ${
         openMenu
           ? "  w-[75%] lg:w-[240px] min-h-[100%]"
           : "w-[50px] h-[50px] pt-[8px] flex-row  md:w-[80px] "

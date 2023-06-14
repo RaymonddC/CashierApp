@@ -2,7 +2,6 @@ import { useEffect } from "react";
 import Chart from "../../Components/Chart/Chart";
 import { useDispatch } from "react-redux";
 import { getDataGraph } from "../../Features/Transaction/transactionSlice";
-import { Sidebar } from "../../Components/Sidebar/Sidebar";
 import DateRange from "../../Components/DateRange/DateRange";
 
 export default function Dashboard() {
